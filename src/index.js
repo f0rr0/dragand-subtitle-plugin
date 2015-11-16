@@ -17,6 +17,19 @@ export default ({ excludes = [] } = {}) => {
   /* Get all apis name and remove excludes ones */
   let apis = ExternalApis;
 
+  /**
+   *  Get all availabe apis
+   *  @param {string} type of subtitles movie/serie
+   *  @return {areay} All apis name
+   */
+  const findApi = type = false => {
+    return apis
+    .filter( api => { return (!type) ? api : api.type.indexOf(type) != -1 })
+    .map( api => { return api.name })
+    .filter( api => { return excludes.indexOf(api) == -1 });
+  }
+
+
   /* Object API return */
   return {
     excludes: excludes,
@@ -53,12 +66,7 @@ export default ({ excludes = [] } = {}) => {
      *  @param {string} type of subtitles movie/serie
      *  @return {areay} All apis name
      */
-    apis(type = false) {
-      return apis
-      .filter( api => { return (!type) ? api : api.type.indexOf(type) != -1 })
-      .map( api => { return api.name })
-      .filter( api => { return excludes.indexOf(api) == -1 });
-    },
+    apis: findApi
 
     /**
      *  Get informations about a specific api

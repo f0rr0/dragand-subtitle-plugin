@@ -36,6 +36,8 @@ exports.default = function () {
   /* Get all apis name and remove excludes ones */
   var _apis = _apis3.default;
 
+  var findApi = function findApi(type) {};
+
   /* Object API return */
   return {
     excludes: excludes,

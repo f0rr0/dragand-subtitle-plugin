@@ -14,6 +14,7 @@ exports.default = function () {
     /* Name of the api */
     name: "open-subtitle",
 
+    /* Type of data available */
     type: ["movie"],
 
     /* Necessary parameters */
