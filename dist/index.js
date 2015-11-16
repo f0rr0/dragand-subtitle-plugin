@@ -14,5 +14,7 @@ exports.default = function () {
   /*  Here private methods and properties */
 
   /* Object return */
-  return {};
+  return {
+    test: "test"
+  };
 };

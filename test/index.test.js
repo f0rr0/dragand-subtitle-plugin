@@ -3,7 +3,7 @@
  * Using babel compilers
  */
 
-import DS from '../src/index.js';
+import DS from '../dist/index.js';
 import assert from 'assert';
 
 /**
