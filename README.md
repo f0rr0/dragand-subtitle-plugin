@@ -3,10 +3,21 @@ Open Source library to get availables subtitles from famous externals apis
 
 ## Goals :
 
-### Get Series subtitles
+### Getting Started
+
 ```javascript
 
   import DragandSubtitles from 'dragand-subtitle-plugin';
+
+  // Initialisation and exclude some apis
+  DragandSubtitles({
+    exclude: ["open-subtitles", "addicted"]
+  });
+
+```
+
+### Get Series subtitles
+```javascript
 
   DragandSubtitles.getSerieSubtitles({
     imdbid       : 123445,
@@ -26,8 +37,6 @@ Open Source library to get availables subtitles from famous externals apis
 
 ### Get Movies subtitles
 ```javascript
-
-  import DragandSubtitles from 'dragand-subtitle-plugin';
 
   DragandSubtitles.getMovieSubtitles({
     imdbid       : 123445,
