@@ -42,6 +42,10 @@ describe('DragandSubtitles initialisation', () => {
     assert.equal('function', typeof DragandSubtitles.apis);
   });
 
+  it('should have an .api() method', () => {
+    assert.equal('function', typeof DragandSubtitles.api);
+  });
+
   it('should have an .credits() method', () => {
     assert.equal('function', typeof DragandSubtitles.credits);
   });
@@ -77,6 +81,21 @@ describe('.apis() method', () => {
     assert.equal(true, _.isArray(DragandSubtitles.apis()));
     expect(DragandSubtitles.apis()).to.have.members(["open-subtitle"]);
   });
+
+  it('Should return an array of api for series', () => {
+    let DragandSubtitles = DS();
+    assert.equal(true, _.isArray(DragandSubtitles.apis("serie")));
+    assert.equal(0, DragandSubtitles.apis("serie").length);
+  });
+
+  it('Should return an array of api for movies', () => {
+    let DragandSubtitles = DS();
+    assert.equal(true, _.isArray(DragandSubtitles.apis("movie")));
+    assert.equal(1, DragandSubtitles.apis("movie").length);
+  });
+});
+
+describe('.api() method', () => {
 });
 
 describe('.credits() method', () => {

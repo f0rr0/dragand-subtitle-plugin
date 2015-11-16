@@ -8,10 +8,13 @@ Object.defineProperty(exports, "__esModule", {
  */
 
 exports.default = function () {
+  /* Here private methods and private properties */
 
   return {
     /* Name of the api */
     name: "open-subtitle",
+
+    type: ["movie"],
 
     /* Necessary parameters */
     parameters: [],

@@ -26,7 +26,7 @@ exports.default = function () {
   var _ref$excludes = _ref.excludes;
   var excludes = _ref$excludes === undefined ? [] : _ref$excludes;
 
-  /*  Here private methods and properties */
+  /*  Here private methods and private properties */
 
   /* Specified exlude as an array */
   if (!(0, _lodash.isArray)(excludes)) {
@@ -34,11 +34,7 @@ exports.default = function () {
   }
 
   /* Get all apis name and remove excludes ones */
-  var _apis = _apis3.default.map(function (api) {
-    return api.name;
-  }).filter(function (api) {
-    return excludes.indexOf(api) == -1;
-  });
+  var _apis = _apis3.default;
 
   /* Object API return */
   return {
@@ -50,6 +46,13 @@ exports.default = function () {
      *  @return {promise} promise with subs
      */
     getSerieSubtitles: function getSerieSubtitles() {
+      /* For each apis */
+      // ==> Check parameters
+      // If no apis ok --> return exception
+      // If at least one api is ok
+      // For each api
+      // Call them
+
       var _ref2 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       var imdbid = _ref2.imdbid;
@@ -70,6 +73,13 @@ exports.default = function () {
      *  @return {promise} promise with subs
      */
     getMovieSubtitles: function getMovieSubtitles() {
+      /* For each apis */
+      // ==> Check parameters
+      // If no apis ok --> return exception
+      // If at least one api is ok
+      // For each api
+      // Call them
+
       var _ref3 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       var imdbid = _ref3.imdbid;
@@ -83,10 +93,38 @@ exports.default = function () {
 
     /**
      *  Get all availabe apis
-     *  @return {promise} promise with subs
+     *  @param {string} type of subtitles movie/serie
+     *  @return {areay} All apis name
      */
     apis: function apis() {
-      return _apis;
+      var type = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+      return _apis.filter(function (api) {
+        return !type ? api : api.type.indexOf(type) != -1;
+      }).map(function (api) {
+        return api.name;
+      }).filter(function (api) {
+        return excludes.indexOf(api) == -1;
+      });
+    },
+
+    /**
+     *  Get informations about a specific api
+     *  @param {string} api name
+     *  @return {object} api information
+     */
+    api: function api() {
+      var _api = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+      if (!_api) {
+        return undefined;
+      }
+
+      var find = _apis.filter(function (api_i) {
+        api_i.name == _api;
+      });
+
+      return find.length == 1 ? find : undefined;
     },
 
     /**

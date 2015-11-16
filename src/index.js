@@ -1,6 +1,6 @@
 import {isArray} from 'lodash';
 import {contributors} from '../package.json';
-import Apis from './apis';
+import ExternalApis from './apis';
 
 
 /**
@@ -9,17 +9,13 @@ import Apis from './apis';
  * @return object with properties and methods
  */
 export default ({ excludes = [] } = {}) => {
-  /*  Here private methods and properties */
+  /*  Here private methods and private properties */
 
   /* Specified exlude as an array */
   if (!isArray(excludes)) { excludes = []; }
 
   /* Get all apis name and remove excludes ones */
-  let apis = Apis
-    .map( api => { return api.name })
-    .filter( api => { return excludes.indexOf(api) == -1 });
-
-
+  let apis = ExternalApis;
 
   /* Object API return */
   return {
@@ -31,7 +27,12 @@ export default ({ excludes = [] } = {}) => {
      *  @return {promise} promise with subs
      */
     getSerieSubtitles({imdbid, filepath, title, apis, languages, type, episode, season, release_group, stopOnFind = false } = {}) {
-
+      /* For each apis */
+      // ==> Check parameters
+      // If no apis ok --> return exception
+      // If at least one api is ok
+      // For each api
+      // Call them
     },
 
     /**
@@ -39,15 +40,37 @@ export default ({ excludes = [] } = {}) => {
      *  @return {promise} promise with subs
      */
     getMovieSubtitles({imdbid, filepath, title, apis, languages, type, stopOnFind } = {}) {
-
+      /* For each apis */
+      // ==> Check parameters
+      // If no apis ok --> return exception
+      // If at least one api is ok
+      // For each api
+      // Call them
     },
 
     /**
      *  Get all availabe apis
-     *  @return {promise} promise with subs
+     *  @param {string} type of subtitles movie/serie
+     *  @return {areay} All apis name
      */
-    apis() {
-      return apis;
+    apis(type = false) {
+      return apis
+      .filter( api => { return (!type) ? api : api.type.indexOf(type) != -1 })
+      .map( api => { return api.name })
+      .filter( api => { return excludes.indexOf(api) == -1 });
+    },
+
+    /**
+     *  Get informations about a specific api
+     *  @param {string} api name
+     *  @return {object} api information
+     */
+    api(api=false) {
+      if (!api) { return undefined; }
+
+      let find = apis.filter( api_i => { api_i.name == api; });
+
+      return (find.length == 1) ? find : undefined;
     },
 
     /**
