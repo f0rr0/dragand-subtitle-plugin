@@ -1,8 +1,11 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _lodash = require('lodash');
+
 /**
  * Dragand Subtitles Plugin
  * Factory pattern
@@ -10,11 +13,23 @@ Object.defineProperty(exports, "__esModule", {
  */
 
 exports.default = function () {
+  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+  var _ref$exclude = _ref.exclude;
+  var exclude = _ref$exclude === undefined ? [] : _ref$exclude;
 
   /*  Here private methods and properties */
 
+  /* Specified exlude as an array */
+  if (!(0, _lodash.isArray)(exclude)) {
+    exclude = [];
+  }
+
   /* Object return */
   return {
-    test: "test"
+    exclude: exclude,
+
+    getSerieSubtitles: function getSerieSubtitles() {},
+    getMovieSubtitles: function getMovieSubtitles() {}
   };
 };
