@@ -36,6 +36,7 @@ Open Source library to get availables subtitles from famous externals apis
     apis         : ["open-subtitle", "addicted"], // False --> all apis
     languages    : ["fr", "uk"] // || false all availables languages
     type         : ["srt"] // || false
+    stopOnFind        : true // || stop the request when a subtitle is find
   })
   .then( subs => {
     res.send(subs);
