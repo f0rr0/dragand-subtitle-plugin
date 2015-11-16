@@ -1,25 +1,29 @@
 import {isArray} from 'lodash';
 import {contributors} from '../package.json';
+import Apis from './apis';
+
 
 /**
  * Dragand Subtitles Plugin
  * Factory pattern
  * @return object with properties and methods
  */
-export default ({ exclude = [] } = {}) => {
+export default ({ excludes = [] } = {}) => {
   /*  Here private methods and properties */
 
   /* Specified exlude as an array */
-  if (!isArray(exclude)) { exclude = []; }
+  if (!isArray(excludes)) { excludes = []; }
 
-  /* Just for tests */
-  let apis = ["open-subtitle"];
+  /* Get all apis name and remove excludes ones */
+  let apis = Apis
+    .map( api => { return api.name })
+    .filter( api => { return excludes.indexOf(api) == -1 });
 
 
 
   /* Object API return */
   return {
-    exclude: exclude,
+    excludes: excludes,
 
     /**
      *  Get subtitles for a specific serie

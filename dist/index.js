@@ -8,6 +8,12 @@ var _lodash = require('lodash');
 
 var _package = require('../package.json');
 
+var _apis2 = require('./apis');
+
+var _apis3 = _interopRequireDefault(_apis2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Dragand Subtitles Plugin
  * Factory pattern
@@ -17,22 +23,26 @@ var _package = require('../package.json');
 exports.default = function () {
   var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-  var _ref$exclude = _ref.exclude;
-  var exclude = _ref$exclude === undefined ? [] : _ref$exclude;
+  var _ref$excludes = _ref.excludes;
+  var excludes = _ref$excludes === undefined ? [] : _ref$excludes;
 
   /*  Here private methods and properties */
 
   /* Specified exlude as an array */
-  if (!(0, _lodash.isArray)(exclude)) {
-    exclude = [];
+  if (!(0, _lodash.isArray)(excludes)) {
+    excludes = [];
   }
 
-  /* Just for tests */
-  var _apis = ["open-subtitle"];
+  /* Get all apis name and remove excludes ones */
+  var _apis = _apis3.default.map(function (api) {
+    return api.name;
+  }).filter(function (api) {
+    return excludes.indexOf(api) == -1;
+  });
 
   /* Object API return */
   return {
-    exclude: exclude,
+    excludes: excludes,
 
     /**
      *  Get subtitles for a specific serie

@@ -53,19 +53,19 @@ describe('Checking default values', () => {
   /**
    *  Testing exclude options type
    */
-  it('Exclude options should always be an array', () => {
-    let DragandSubtitles_1 = DS({ exclude: "not an array" });
-    let DragandSubtitles_2 = DS({exclude: {}});
-    let DragandSubtitles_3 = DS({exclude: 1});
-    let DragandSubtitles_4 = DS({exclude: [1, 2, 3, 4] });
+  it('Excludes options should always be an array', () => {
+    let DragandSubtitles_1 = DS({ excludes: "not an array" });
+    let DragandSubtitles_2 = DS({excludes: {}});
+    let DragandSubtitles_3 = DS({excludes: 1});
+    let DragandSubtitles_4 = DS({excludes: [1, 2, 3, 4] });
 
-    assert.equal(0, DragandSubtitles_1.exclude.length);
-    assert.equal(true, _.isArray(DragandSubtitles_1.exclude));
-    assert.equal(0, DragandSubtitles_2.exclude.length);
-    assert.equal(true, _.isArray(DragandSubtitles_2.exclude));
-    assert.equal(0, DragandSubtitles_3.exclude.length);
-    assert.equal(true, _.isArray(DragandSubtitles_3.exclude));
-    assert.equal(4, DragandSubtitles_4.exclude.length);
+    assert.equal(0, DragandSubtitles_1.excludes.length);
+    assert.equal(true, _.isArray(DragandSubtitles_1.excludes));
+    assert.equal(0, DragandSubtitles_2.excludes.length);
+    assert.equal(true, _.isArray(DragandSubtitles_2.excludes));
+    assert.equal(0, DragandSubtitles_3.excludes.length);
+    assert.equal(true, _.isArray(DragandSubtitles_3.excludes));
+    assert.equal(4, DragandSubtitles_4.excludes.length);
   });
 
 });
