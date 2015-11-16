@@ -1,6 +1,19 @@
 # dragand-subtitle-plugin
 Open Source library to get availables subtitles from famous externals apis
 
+# How to dev with use
+```shell
+$ git clone https://github.com/DragAndWatch/dragand-subtitle-plugin.git
+$ cd dragand-subtitle-plugin
+
+<!-- Test -->
+$ npm test
+
+<!-- Build Dist -->
+$ npm run build
+```
+
+
 ## Goals :
 
 ### Getting Started
@@ -27,7 +40,7 @@ Open Source library to get availables subtitles from famous externals apis
     season       : 2,
     title        : "Games Of Thrones",
     apis         : ["open-subtitle", "addicted"], // False --> all apis
-    languages    : ["fr", "uk"] // || false all availables languages
+    languages    : ["fr", "uk"] // || false all available languages
   })
   .then( subs => {
     res.send(subs);
@@ -43,9 +56,9 @@ Open Source library to get availables subtitles from famous externals apis
     filepath     : "/a/specific/path/to/movie",
     title        : "Inception",
     apis         : ["open-subtitle", "addicted"], // False --> all apis
-    languages    : ["fr", "uk"] // || false all availables languages
+    languages    : ["fr", "uk"] // || false all available languages
     type         : ["srt"] // || false
-    stopOnFind        : true // || stop the request when a subtitle is find
+    stopOnFind   : true // || stop the request when a subtitle is find
   })
   .then( subs => {
     res.send(subs);
@@ -63,9 +76,21 @@ Open Source library to get availables subtitles from famous externals apis
         {
           language: "fr",
           zip: "http://www.something.com/sub.zip",
-          srt: "http://www.something.com/sub.srt"
+          srt: "http://www.something.com/sub.srt",
+          api: 'open-subtitles',
         }
       ]
+    }
+  ]
+
+ /* OR */
+
+  [     
+    {
+      language: "fr",
+      type: "srt",
+      url: "http://www.something.com/sub.srt",
+      api: 'open-subtitles',
     }
   ]
 ```
@@ -82,7 +107,7 @@ Get all availables apis
 Get all infos about a specific api
 ```javascript
 
-  DragandSubtitles.apis('open-subtitles') -->   // { name: "open-subtitles", etc...}
+  DragandSubtitles.api('open-subtitles') -->   // { name: "open-subtitles", etc...}
 
 ```
 

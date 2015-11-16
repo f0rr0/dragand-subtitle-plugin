@@ -1,0 +1,35 @@
+{
+  "name": "dragand-subtitle-plugin",
+  "version": "1.0.0",
+  "description": "Open Source library to get availables subtitles from famous externals apis",
+  "main": "dist/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist && mkdir dist",
+    "build": "babel src --out-dir dist",
+    "test": "mocha --compilers js:babel-core/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DragAndWatch/dragand-subtitle-plugin.git"
+  },
+  "keywords": [
+    "subtitles",
+    "APIS",
+    "opensubtitles",
+    "addict7d"
+  ],
+  "author": "Arthur Mialon <arthurmialon@gmail.com> (http://www.arthurmialon.fr/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DragAndWatch/dragand-subtitle-plugin/issues"
+  },
+  "homepage": "https://github.com/DragAndWatch/dragand-subtitle-plugin#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "6.1.21",
+    "babel-preset-es2015": "6.1.18"
+  }
+}
