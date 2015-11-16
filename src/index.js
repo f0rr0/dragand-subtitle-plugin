@@ -11,6 +11,8 @@ export default ({ exclude = [] } = {}) => {
   /* Specified exlude as an array */
   if (!isArray(exclude)) { exclude = []; }
 
+  let apis = ["open-subtitle"];
+
   /* Object return */
   return {
     exclude: exclude,
@@ -20,7 +22,15 @@ export default ({ exclude = [] } = {}) => {
     },
 
     getMovieSubtitles() {
-      
+
+    },
+
+    apis() {
+      return apis;
+    },
+
+    credits(){
+      return [];
     }
   };
 

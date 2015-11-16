@@ -6,6 +6,7 @@
 import DS from '../dist/index.js';
 import assert from 'assert';
 import _ from 'lodash';
+import {expect} from 'chai';
 
 /**
  * When import the library
@@ -27,12 +28,20 @@ describe('DragandSubtitles initialisation', () => {
     assert.equal('object', typeof DS());
   });
 
-  it('should have a getSerieSubtitles methods', () => {
+  it('should have a .getSerieSubtitles() method', () => {
     assert.equal('function', typeof DS().getSerieSubtitles);
   });
 
-  it('should have a getMovieSubtitles methods', () => {
+  it('should have a .getMovieSubtitles() method', () => {
     assert.equal('function', typeof DS().getMovieSubtitles);
+  });
+
+  it('should have an .apis() method', () => {
+    assert.equal('function', typeof DS().apis);
+  });
+
+  it('should have an .credits() method', () => {
+    assert.equal('function', typeof DS().credits);
   });
 
 });
@@ -55,5 +64,15 @@ describe('Checking default values', () => {
     assert.equal(0, DragandSubtitles_3.exclude.length);
     assert.equal(true, _.isArray(DragandSubtitles_3.exclude));
     assert.equal(4, DragandSubtitles_4.exclude.length);
+  });
+
+});
+
+
+describe('.apis() method', () => {
+  it('Should return an array of apis available and choosen', () => {
+    let DragandSubtitles = DS();
+    assert.equal(true, _.isArray(DragandSubtitles.apis()));
+    expect(DragandSubtitles.apis()).to.have.members(["open-subtitle"]);
   });
 });

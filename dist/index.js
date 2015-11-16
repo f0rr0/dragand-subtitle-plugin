@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _lodash = require('lodash');
+var _lodash = require("lodash");
 
 /**
  * Dragand Subtitles Plugin
@@ -25,11 +25,19 @@ exports.default = function () {
     exclude = [];
   }
 
+  var _apis = ["open-subtitle"];
+
   /* Object return */
   return {
     exclude: exclude,
 
     getSerieSubtitles: function getSerieSubtitles() {},
-    getMovieSubtitles: function getMovieSubtitles() {}
+    getMovieSubtitles: function getMovieSubtitles() {},
+    apis: function apis() {
+      return _apis;
+    },
+    credits: function credits() {
+      return [];
+    }
   };
 };
