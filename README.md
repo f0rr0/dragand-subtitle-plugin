@@ -85,3 +85,9 @@ Get all infos about a specific api
   DragandSubtitles.apis('open-subtitles') -->   // { name: "open-subtitles", etc...}
 
 ```
+
+```javascript
+
+  DragandSubtitles.credits() -->   // List all contributors from package.json
+
+```
