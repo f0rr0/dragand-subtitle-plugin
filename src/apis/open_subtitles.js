@@ -2,11 +2,13 @@
  * Export Open Subtitles API helper
  */
 export default () => {
-
+  /* Here private methods and private properties */
 
   return {
     /* Name of the api */
     name: "open-subtitle",
+
+    type: ["movie"],
 
     /* Necessary parameters */
     parameters: [
