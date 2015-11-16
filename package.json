@@ -2,6 +2,16 @@
   "name": "dragand-subtitle-plugin",
   "version": "1.0.0",
   "description": "Open Source library to get availables subtitles from famous externals apis",
+  "contributors": [
+    {
+      "name": "Mathieu Le Tyrant",
+      "email": "mathieu.letyrant@gmail.com"
+    },
+    {
+      "name": "Arthur Mialon",
+      "email": "arthurmialon@gmail.com"
+    }
+  ],
   "main": "dist/index.js",
   "directories": {
     "test": "test"

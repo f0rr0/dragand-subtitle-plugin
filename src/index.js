@@ -1,9 +1,10 @@
 import {isArray} from 'lodash';
+import {contributors} from '../package.json';
 
 /**
  * Dragand Subtitles Plugin
  * Factory pattern
- * @return simple object with properties and methods
+ * @return object with properties and methods
  */
 export default ({ exclude = [] } = {}) => {
   /*  Here private methods and properties */
@@ -11,26 +12,46 @@ export default ({ exclude = [] } = {}) => {
   /* Specified exlude as an array */
   if (!isArray(exclude)) { exclude = []; }
 
+  /* Just for tests */
   let apis = ["open-subtitle"];
 
-  /* Object return */
+
+
+  /* Object API return */
   return {
     exclude: exclude,
 
-    getSerieSubtitles() {
+    /**
+     *  Get subtitles for a specific serie
+     *  @param {object} options
+     *  @return {promise} promise with subs
+     */
+    getSerieSubtitles({imdbid, filepath, title, apis, languages, type, episode, season, release_group, stopOnFind = false } = {}) {
 
     },
 
-    getMovieSubtitles() {
+    /**
+     *  Get subtitles for a specific movie
+     *  @return {promise} promise with subs
+     */
+    getMovieSubtitles({imdbid, filepath, title, apis, languages, type, stopOnFind } = {}) {
 
     },
 
+    /**
+     *  Get all availabe apis
+     *  @return {promise} promise with subs
+     */
     apis() {
       return apis;
     },
 
+    /**
+     *  Get all library contributors
+     *  @return {promise} promise with subs
+     */
     credits(){
-      return [];
+      return contributors;
     }
   };
 

@@ -24,24 +24,26 @@ describe('Require DragandSubtitles', () => {
  */
 describe('DragandSubtitles initialisation', () => {
 
+  let DragandSubtitles = DS();
+
   it('should be a object on return', () => {
-    assert.equal('object', typeof DS());
+    assert.equal('object', typeof DragandSubtitles);
   });
 
   it('should have a .getSerieSubtitles() method', () => {
-    assert.equal('function', typeof DS().getSerieSubtitles);
+    assert.equal('function', typeof DragandSubtitles.getSerieSubtitles);
   });
 
   it('should have a .getMovieSubtitles() method', () => {
-    assert.equal('function', typeof DS().getMovieSubtitles);
+    assert.equal('function', typeof DragandSubtitles.getMovieSubtitles);
   });
 
   it('should have an .apis() method', () => {
-    assert.equal('function', typeof DS().apis);
+    assert.equal('function', typeof DragandSubtitles.apis);
   });
 
   it('should have an .credits() method', () => {
-    assert.equal('function', typeof DS().credits);
+    assert.equal('function', typeof DragandSubtitles.credits);
   });
 
 });
@@ -70,9 +72,16 @@ describe('Checking default values', () => {
 
 
 describe('.apis() method', () => {
-  it('Should return an array of apis available and choosen', () => {
+  it('Should return an array of available apis choosen', () => {
     let DragandSubtitles = DS();
     assert.equal(true, _.isArray(DragandSubtitles.apis()));
     expect(DragandSubtitles.apis()).to.have.members(["open-subtitle"]);
+  });
+});
+
+describe('.credits() method', () => {
+  it('Should return an array of all contributors', () => {
+    let DragandSubtitles = DS();
+    assert.equal(true, _.isArray(DragandSubtitles.credits()));
   });
 });
