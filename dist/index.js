@@ -42,13 +42,26 @@ exports.default = function () {
    *  @param {string} type of subtitles movie/serie
    *  @return {areay} All apis name
    */
-  var findApi = function findApi() {
+  var getApis = function getApis() {
     var type = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
     return apis.filter(function (api) {
       return !type ? api : api.type.indexOf(type) != -1;
     }).filter(function (api) {
       return excludes.indexOf(api.name) == -1;
+    });
+  };
+
+  /**
+   * Get apis by names
+   * @param {array} names
+   * @return {array} apis objects
+   */
+  var getApisByName = function getApisByName() {
+    var names = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+
+    return getApis().filter(function (api) {
+      return names.indexOf(api.name) != -1;
     });
   };
 
@@ -77,7 +90,7 @@ exports.default = function () {
       var stopOnFind = _ref2$stopOnFind === undefined ? false : _ref2$stopOnFind;
 
       /* For each serie apis */
-      var seriesApis = findApi('serie');
+      var seriesApis = getApis('serie');
 
       // ==> Check parameters
       // If no apis ok --> return exception
@@ -102,7 +115,7 @@ exports.default = function () {
       var stopOnFind = _ref3.stopOnFind;
 
       /* For each movie apis */
-      var seriesApis = findApi('movie');
+      var seriesApis = getApis('movie');
 
       // ==> Check parameters
       // If no apis ok --> return exception
@@ -119,7 +132,7 @@ exports.default = function () {
     apis: function apis() {
       var type = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
-      return findApi(type).map(function (api) {
+      return getApis(type).map(function (api) {
         return api.name;
       });
     },
@@ -135,12 +148,7 @@ exports.default = function () {
       if (!_api) {
         return undefined;
       }
-
-      var find = apis.filter(function (api_i) {
-        api_i.name == _api;
-      });
-
-      return find.length == 1 ? find : undefined;
+      return getApisByName([_api]).length == 1 ? getApisByName([_api])[0] : undefined;
     },
 
     /**

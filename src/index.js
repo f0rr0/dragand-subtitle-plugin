@@ -22,10 +22,19 @@ export default ({ excludes = [] } = {}) => {
    *  @param {string} type of subtitles movie/serie
    *  @return {areay} All apis name
    */
-  const findApi = (type = false) => {
+  const getApis = (type = false) => {
     return apis
-    .filter( api => { return (!type) ? api : api.type.indexOf(type) != -1 })
-    .filter( api => { return excludes.indexOf(api.name) == -1 });
+    .filter( api => { return (!type) ? api : api.type.indexOf(type) != -1; })
+    .filter( api => { return excludes.indexOf(api.name) == -1; });
+  }
+
+  /**
+   * Get apis by names
+   * @param {array} names
+   * @return {array} apis objects
+   */
+  const getApisByName = (names = []) => {
+    return getApis().filter( api => { return names.indexOf(api.name) != -1; })
   }
 
 
@@ -40,7 +49,7 @@ export default ({ excludes = [] } = {}) => {
      */
     getSerieSubtitles({imdbid, filepath, title, apis, languages, type, episode, season, release_group, stopOnFind = false } = {}) {
       /* For each serie apis */
-      let seriesApis = findApi('serie');
+      let seriesApis = getApis('serie');
 
       // ==> Check parameters
       // If no apis ok --> return exception
@@ -55,7 +64,7 @@ export default ({ excludes = [] } = {}) => {
      */
     getMovieSubtitles({imdbid, filepath, title, apis, languages, type, stopOnFind } = {}) {
       /* For each movie apis */
-      let seriesApis = findApi('movie');
+      let seriesApis = getApis('movie');
 
       // ==> Check parameters
       // If no apis ok --> return exception
@@ -69,8 +78,8 @@ export default ({ excludes = [] } = {}) => {
      *  @param {string} type of subtitles movie/serie
      *  @return {areay} All apis name
      */
-    apis(type=false) {
-      return findApi(type).map( api => { return api.name });
+    apis(type = false) {
+      return getApis(type).map( api => { return api.name });
     },
 
     /**
@@ -78,12 +87,9 @@ export default ({ excludes = [] } = {}) => {
      *  @param {string} api name
      *  @return {object} api information
      */
-    api(api=false) {
+    api(api = false) {
       if (!api) { return undefined; }
-
-      let find = apis.filter( api_i => { api_i.name == api; });
-
-      return (find.length == 1) ? find : undefined;
+      return (getApisByName([api]).length == 1) ? getApisByName([api])[0] : undefined;
     },
 
     /**

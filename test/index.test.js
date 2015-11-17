@@ -96,6 +96,15 @@ describe('.apis() method', () => {
 });
 
 describe('.api() method', () => {
+  it('Should return an object with api information', () => {
+    let DragandSubtitles = DS();
+    assert.equal('object', typeof DragandSubtitles.api('open-subtitle'));
+  });
+
+  it('Should return undefined when api doesn\'t exist information', () => {
+    let DragandSubtitles = DS();
+    assert.equal(undefined, DragandSubtitles.api('open-subtitle-not-exist'));
+  });
 });
 
 describe('.credits() method', () => {
