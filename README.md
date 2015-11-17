@@ -10,7 +10,7 @@ Open Source library to get availables subtitles from famous externals apis for
 
   // Initialisation and exclude some apis
   DragandSubtitles({
-    /* You can specify some apis you exclude */
+    /* You can specify some apis you want to exclude */
     exclude: ["open-subtitles", "addicted"]
   });
 

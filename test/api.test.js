@@ -42,5 +42,19 @@ apis.forEach( api => {
       it('should have a .callMovies() method', () => { assert.equal('function', typeof api.callMovies); });
       it('should have a .setOptions() method', () => { assert.equal('function', typeof api.setOptions); });
     });
+
+    describe('Checking right type/parameters definition', () => {
+      it('if serie then should have a parameters.series property', () => {
+        if (api.type.indexOf("serie") != -1) {
+          assert.equal(true,  _.isArray(api.parameters.serie) );
+        }
+
+      });
+      it('if movie then should have a parameters.movies property', () => {
+        if (api.type.indexOf("movie") != -1) {
+          assert.equal(true,  _.isArray(api.parameters.movie) );
+        }
+      });
+    });
   });
 });

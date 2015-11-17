@@ -65,6 +65,21 @@ exports.default = function () {
     });
   };
 
+  /**
+   * Check if all options are valid
+   * @param {array} api options required
+   * @param {object} options
+   * @return {boolean}
+   */
+  var validApiOptions = function validApiOptions(parameters, apisOptions) {
+    console.log(parameters);
+    console.log(apisOptions);
+    var missing = apisOptions.filter(function (param) {
+      return !parameters[param];
+    });
+    return missing.length > 0 ? false : true;
+  };
+
   /* Object API return */
   return {
     excludes: excludes,
@@ -75,22 +90,17 @@ exports.default = function () {
      *  @return {promise} promise with subs
      */
     getSerieSubtitles: function getSerieSubtitles() {
-      var _ref2 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var _ref2, _ref2$stopOnFind;
 
-      var imdbid = _ref2.imdbid;
-      var filepath = _ref2.filepath;
-      var title = _ref2.title;
-      var apis = _ref2.apis;
-      var languages = _ref2.languages;
-      var type = _ref2.type;
-      var episode = _ref2.episode;
-      var season = _ref2.season;
-      var release_group = _ref2.release_group;
-      var _ref2$stopOnFind = _ref2.stopOnFind;
-      var stopOnFind = _ref2$stopOnFind === undefined ? false : _ref2$stopOnFind;
+      var parameters = arguments.length <= 0 || arguments[0] === undefined ? (_ref2 = {}, imdbid = _ref2.imdbid, filepath = _ref2.filepath, title = _ref2.title, apis = _ref2.apis, languages = _ref2.languages, type = _ref2.type, episode = _ref2.episode, season = _ref2.season, release_group = _ref2.release_group, _ref2$stopOnFind = _ref2.stopOnFind, stopOnFind = _ref2$stopOnFind === undefined ? false : _ref2$stopOnFind, _ref2) : arguments[0];
 
-      /* For each serie apis */
-      var seriesApis = getApis('serie');
+      /* Get all series apis that match with parameters */
+      var seriesApis = getApis('serie').filter(function (api) {
+        return validApiOptions(parameters, api.parameters.serie);
+      });
+      // let seriesApis = getApis('serie')
+      console.log(seriesApis);
+      // Reject all apis that doesn't match parameters;
 
       // ==> Check parameters
       // If no apis ok --> return exception
