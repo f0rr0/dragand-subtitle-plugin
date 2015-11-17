@@ -21,9 +21,6 @@
     "build": "babel src --out-dir dist --watch",
     "test": "mocha --compilers js:babel-core/register"
   },
-  "pre-commit": [
-    "test"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DragAndWatch/dragand-subtitle-plugin.git"

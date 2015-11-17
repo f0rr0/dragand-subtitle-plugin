@@ -52,6 +52,9 @@ describe('DragandSubtitles initialisation', () => {
 
 });
 
+/**
+ * Checking default values
+ */
 describe('Checking default values', () => {
 
   /**
@@ -74,7 +77,9 @@ describe('Checking default values', () => {
 
 });
 
-
+/**
+ * .apis() Methods
+ */
 describe('.apis() method', () => {
   it('Should return an array of available apis choosen', () => {
     let DragandSubtitles = DS();
@@ -95,6 +100,9 @@ describe('.apis() method', () => {
   });
 });
 
+/**
+ * .api() Method
+ */
 describe('.api() method', () => {
   it('Should return an object with api information', () => {
     let DragandSubtitles = DS();
@@ -107,9 +115,34 @@ describe('.api() method', () => {
   });
 });
 
+/**
+ * .credits() Method
+ */
 describe('.credits() method', () => {
   it('Should return an array of all contributors', () => {
     let DragandSubtitles = DS();
     assert.equal(true, _.isArray(DragandSubtitles.credits()));
+  });
+});
+
+/**
+ * .getSerieSubtitles() Method
+ */
+describe('.getSerieSubtitles() method', () => {
+  it('Should return a promise', () => {
+    let DragandSubtitles = DS();
+    assert.equal("function", typeof DragandSubtitles.getSerieSubtitles().then );
+    assert.equal("function", typeof DragandSubtitles.getSerieSubtitles().catch );
+  });
+});
+
+/**
+ * .getMovieSubtitles() Method
+ */
+describe('.getMovieSubtitles() method', () => {
+  it('Should return a promise', () => {
+    let DragandSubtitles = DS();
+    assert.equal("function", typeof DragandSubtitles.getMovieSubtitles().then );
+    assert.equal("function", typeof DragandSubtitles.getMovieSubtitles().catch );
   });
 });

@@ -127,7 +127,7 @@ exports.default = function () {
     /**
      *  Get all availabe apis
      *  @param {string} type of subtitles movie/serie
-     *  @return {areay} All apis name
+     *  @return {array} All apis name
      */
     apis: function apis() {
       var type = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];

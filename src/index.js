@@ -76,7 +76,7 @@ export default ({ excludes = [] } = {}) => {
     /**
      *  Get all availabe apis
      *  @param {string} type of subtitles movie/serie
-     *  @return {areay} All apis name
+     *  @return {array} All apis name
      */
     apis(type = false) {
       return getApis(type).map( api => { return api.name });

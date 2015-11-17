@@ -37,8 +37,9 @@ apis.forEach( api => {
       it('should have typeof as array', () => { assert.equal(true, _.isArray(api.type)); });
     });
 
-    describe('Checking methods', () => { 
-      it('should have a .call() method', () => { assert.equal('function', typeof api.call); });
+    describe('Checking methods', () => {
+      it('should have a .callSeries() method', () => { assert.equal('function', typeof api.callSeries); });
+      it('should have a .callMovies() method', () => { assert.equal('function', typeof api.callMovies); });
       it('should have a .setOptions() method', () => { assert.equal('function', typeof api.setOptions); });
     });
   });
