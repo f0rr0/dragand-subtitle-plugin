@@ -18,7 +18,6 @@
 import apis from '../dist/apis';
 import assert from 'assert';
 import _ from 'lodash';
-import {expect} from 'chai';
 
 /**
  * Checking each api
@@ -38,7 +37,7 @@ apis.forEach( api => {
       it('should have typeof as array', () => { assert.equal(true, _.isArray(api.type)); });
     });
 
-    describe('Checking methods', () => {
+    describe('Checking methods', () => { 
       it('should have a .call() method', () => { assert.equal('function', typeof api.call); });
       it('should have a .setOptions() method', () => { assert.equal('function', typeof api.setOptions); });
     });

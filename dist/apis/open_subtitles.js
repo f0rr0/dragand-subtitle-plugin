@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -12,10 +12,10 @@ exports.default = function () {
 
   return {
     /* Name of the api */
-    name: "open-subtitle",
+    name: 'open-subtitle',
 
     /* Type of data available */
-    type: ["movie", "serie"],
+    type: ['movie', 'serie'],
 
     /* Necessary parameters */
     parameters: [],

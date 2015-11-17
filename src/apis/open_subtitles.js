@@ -6,10 +6,10 @@ export default () => {
 
   return {
     /* Name of the api */
-    name: "open-subtitle",
+    name: 'open-subtitle',
 
     /* Type of data available */
-    type: ["movie", "serie"],
+    type: ['movie', 'serie'],
 
     /* Necessary parameters */
     parameters: [
@@ -22,7 +22,6 @@ export default () => {
      * @return {boolean} is configuration is valid
      */
     setOptions() {
-
     },
 
     /**
@@ -30,7 +29,6 @@ export default () => {
      * @return {promise} format data and errors
      */
     call() {
-
     }
 
   };
