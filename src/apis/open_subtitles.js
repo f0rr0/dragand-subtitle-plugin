@@ -17,18 +17,33 @@ export default () => {
 
     let resultFormated = [];
 
-    options.languages.forEach((language) => {
-      Object.keys(result).forEach((index) => {
-        if(index === language) {
-          resultFormated.push({
-            type: result[index].url.substr(result[index].url.lastIndexOf('.') + 1),
-            language: result[index].lang,
-            url: result[index].url,
-            api: apiName
-          });
-        }
-      });
+    resultFormated = Object.keys(result).map( key => {
+      if (options.languages.indexOf(key) != -1) {
+        result[key].language = key;
+        return result[key];
+      }
+    })
+    .map( (sub) => {
+      return {
+        type: sub.url.substr(result[index].url.lastIndexOf('.') + 1),
+        language: sub.language,
+        url: sub.url,
+        api: apiName
+      };
     });
+
+    // options.languages.forEach((language) => {
+    //   Object.keys(result).forEach((index) => {
+    //     if(index === language) {
+    //       resultFormated.push({
+    //         type: result[index].url.substr(result[index].url.lastIndexOf('.') + 1),
+    //         language: result[index].lang,
+    //         url: result[index].url,
+    //         api: apiName
+    //       });
+    //     }
+    //   });
+    // });
 
     return resultFormated;
 
