@@ -8,9 +8,9 @@ var _lodash = require('lodash');
 
 var _package = require('../package.json');
 
-var _apis2 = require('./apis');
+var _apis = require('./apis');
 
-var _apis3 = _interopRequireDefault(_apis2);
+var _apis2 = _interopRequireDefault(_apis);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,9 +34,24 @@ exports.default = function () {
   }
 
   /* Get all apis name and remove excludes ones */
-  var _apis = _apis3.default;
+  var apis = _apis2.default;
 
-  var findApi = function findApi(type) {};
+  /**
+   *  Get all availabe apis
+   *  @param {string} type of subtitles movie/serie
+   *  @return {areay} All apis name
+   */
+  var findApi = function findApi() {
+    var type = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+    return apis.filter(function (api) {
+      return !type ? api : api.type.indexOf(type) != -1;
+    }).map(function (api) {
+      return api.name;
+    }).filter(function (api) {
+      return excludes.indexOf(api) == -1;
+    });
+  };
 
   /* Object API return */
   return {
@@ -48,13 +63,6 @@ exports.default = function () {
      *  @return {promise} promise with subs
      */
     getSerieSubtitles: function getSerieSubtitles() {
-      /* For each apis */
-      // ==> Check parameters
-      // If no apis ok --> return exception
-      // If at least one api is ok
-      // For each api
-      // Call them
-
       var _ref2 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       var imdbid = _ref2.imdbid;
@@ -68,6 +76,15 @@ exports.default = function () {
       var release_group = _ref2.release_group;
       var _ref2$stopOnFind = _ref2.stopOnFind;
       var stopOnFind = _ref2$stopOnFind === undefined ? false : _ref2$stopOnFind;
+
+      /* For each serie apis */
+      var seriesApis = findApi('serie');
+
+      // ==> Check parameters
+      // If no apis ok --> return exception
+      // If at least one api is ok
+      // For each api
+      // Call them
     },
 
     /**
@@ -75,13 +92,6 @@ exports.default = function () {
      *  @return {promise} promise with subs
      */
     getMovieSubtitles: function getMovieSubtitles() {
-      /* For each apis */
-      // ==> Check parameters
-      // If no apis ok --> return exception
-      // If at least one api is ok
-      // For each api
-      // Call them
-
       var _ref3 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       var imdbid = _ref3.imdbid;
@@ -91,6 +101,15 @@ exports.default = function () {
       var languages = _ref3.languages;
       var type = _ref3.type;
       var stopOnFind = _ref3.stopOnFind;
+
+      /* For each movie apis */
+      var seriesApis = findApi('movie');
+
+      // ==> Check parameters
+      // If no apis ok --> return exception
+      // If at least one api is ok
+      // For each api
+      // Call them
     },
 
     /**
@@ -98,17 +117,7 @@ exports.default = function () {
      *  @param {string} type of subtitles movie/serie
      *  @return {areay} All apis name
      */
-    apis: function apis() {
-      var type = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
-
-      return _apis.filter(function (api) {
-        return !type ? api : api.type.indexOf(type) != -1;
-      }).map(function (api) {
-        return api.name;
-      }).filter(function (api) {
-        return excludes.indexOf(api) == -1;
-      });
-    },
+    apis: findApi,
 
     /**
      *  Get informations about a specific api
@@ -122,7 +131,7 @@ exports.default = function () {
         return undefined;
       }
 
-      var find = _apis.filter(function (api_i) {
+      var find = apis.filter(function (api_i) {
         api_i.name == _api;
       });
 

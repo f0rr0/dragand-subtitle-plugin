@@ -22,7 +22,7 @@ export default ({ excludes = [] } = {}) => {
    *  @param {string} type of subtitles movie/serie
    *  @return {areay} All apis name
    */
-  const findApi = type = false => {
+  const findApi = (type = false) => {
     return apis
     .filter( api => { return (!type) ? api : api.type.indexOf(type) != -1 })
     .map( api => { return api.name })
@@ -40,7 +40,9 @@ export default ({ excludes = [] } = {}) => {
      *  @return {promise} promise with subs
      */
     getSerieSubtitles({imdbid, filepath, title, apis, languages, type, episode, season, release_group, stopOnFind = false } = {}) {
-      /* For each apis */
+      /* For each serie apis */
+      let seriesApis = findApi('serie');
+
       // ==> Check parameters
       // If no apis ok --> return exception
       // If at least one api is ok
@@ -53,7 +55,9 @@ export default ({ excludes = [] } = {}) => {
      *  @return {promise} promise with subs
      */
     getMovieSubtitles({imdbid, filepath, title, apis, languages, type, stopOnFind } = {}) {
-      /* For each apis */
+      /* For each movie apis */
+      let seriesApis = findApi('movie');
+
       // ==> Check parameters
       // If no apis ok --> return exception
       // If at least one api is ok
@@ -66,7 +70,7 @@ export default ({ excludes = [] } = {}) => {
      *  @param {string} type of subtitles movie/serie
      *  @return {areay} All apis name
      */
-    apis: findApi
+    apis: findApi,
 
     /**
      *  Get informations about a specific api
