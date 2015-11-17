@@ -40,7 +40,8 @@
   "dependencies": {
     "lodash": "3.10.1",
     "opensubtitles-api": "^2.1.0",
-    "q": "^1.4.1"
+    "q": "^1.4.1",
+    "request": "^2.65.0"
   },
   "devDependencies": {
     "babel-core": "6.1.21",

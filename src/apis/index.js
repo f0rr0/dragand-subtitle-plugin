@@ -1,5 +1,7 @@
-import OpenSubtitle from './open_subtitles';
+import openSubtitle from './open_subtitles';
+import yifysubtitles from './yify_subtitles';
 
 export default [
-  new OpenSubtitle()
+  new openSubtitle(),
+  new yifysubtitles()
 ];
