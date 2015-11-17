@@ -6,13 +6,17 @@ import Q from 'q';
  */
 export default () => {
 
-  /* Define apiName */
+  /* Define api name */
   const apiName = 'open-subtitles';
 
   /* Define opensubtitles-api instance */
   const openSubtitlesApi = new os('OSTestUserAgent');
 
-  /* Format openSubtitles format to Dragand format */
+  /**
+   * Format openSubtitles result to Dragand format
+   * @param {object} result
+   * @return {array} array of subtitles
+   */
   const formatJson = (result) => {
 
     let resultFormated = Object.keys(result)
@@ -43,14 +47,14 @@ export default () => {
 
     /* Necessary parameters */
     parameters: {
-      serie: [ 'languages', 'imdbId', 'season', 'episode', 'fileName', 'filePath' ],
+      serie: [ 'languages', 'imdbId', 'fileName', 'filePath', 'season', 'episode' ],
       movie: [ 'languages', 'imdbId', 'fileName', 'filePath' ]
     },
 
     /**
      * Set options before call
-     * @param {object} configuration
-     * @return {boolean} is configuration is valid
+     * @param {object} options
+     * @return {object} this
      */
     setOptions(opts = {}) {
       options = opts;
