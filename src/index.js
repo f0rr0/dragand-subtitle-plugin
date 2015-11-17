@@ -37,6 +37,19 @@ export default ({ excludes = [] } = {}) => {
     return getApis().filter( api => { return names.indexOf(api.name) != -1; })
   }
 
+  /**
+   * Check if all options are valid
+   * @param {array} api options required
+   * @param {object} options
+   * @return {boolean}
+   */
+  const validApiOptions = (parameters, apisOptions) => {
+    console.log(parameters);
+    console.log(apisOptions);
+    let missing = apisOptions.filter( param => !parameters[param] );
+    return missing.length > 0 ? false : true;
+  }
+
 
   /* Object API return */
   return {
@@ -47,9 +60,24 @@ export default ({ excludes = [] } = {}) => {
      *  @param {object} options
      *  @return {promise} promise with subs
      */
-    getSerieSubtitles({imdbid, filepath, title, apis, languages, type, episode, season, release_group, stopOnFind = false } = {}) {
-      /* For each serie apis */
-      let seriesApis = getApis('serie');
+    getSerieSubtitles(parameters = {
+      imdbid,
+      filepath,
+      fileName
+      title,
+      apis,
+      languages,
+      type,
+      episode,
+      season,
+      release_group,
+      stopOnFind = false
+    } = {}) {
+
+      /* Get all series apis that match with parameters */
+      let seriesApis = getApis('serie').filter( api => validApiOptions(parameters, api.parameters.serie) );
+
+      // Reject all apis that doesn't match parameters;
 
       // ==> Check parameters
       // If no apis ok --> return exception
@@ -63,8 +91,8 @@ export default ({ excludes = [] } = {}) => {
      *  @return {promise} promise with subs
      */
     getMovieSubtitles({imdbid, filepath, title, apis, languages, type, stopOnFind } = {}) {
-      /* For each movie apis */
-      let seriesApis = getApis('movie');
+      /* Get all series apis that match with parameters */
+      let moviesApis = getApis('movie').filter( api => validApiOptions(parameters, api.parameters.movie) );
 
       // ==> Check parameters
       // If no apis ok --> return exception
