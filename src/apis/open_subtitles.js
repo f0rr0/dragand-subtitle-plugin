@@ -9,7 +9,7 @@ export default () => {
     name: "open-subtitle",
 
     /* Type of data available */
-    type: ["movie"],
+    type: ["movie", "serie"],
 
     /* Necessary parameters */
     parameters: [

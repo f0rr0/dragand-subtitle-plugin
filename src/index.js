@@ -2,10 +2,10 @@ import {isArray} from 'lodash';
 import {contributors} from '../package.json';
 import ExternalApis from './apis';
 
-
 /**
  * Dragand Subtitles Plugin
  * Factory pattern
+ * @param {object} options
  * @return object with properties and methods
  */
 export default ({ excludes = [] } = {}) => {
@@ -25,8 +25,7 @@ export default ({ excludes = [] } = {}) => {
   const findApi = (type = false) => {
     return apis
     .filter( api => { return (!type) ? api : api.type.indexOf(type) != -1 })
-    .map( api => { return api.name })
-    .filter( api => { return excludes.indexOf(api) == -1 });
+    .filter( api => { return excludes.indexOf(api.name) == -1 });
   }
 
 
@@ -70,7 +69,9 @@ export default ({ excludes = [] } = {}) => {
      *  @param {string} type of subtitles movie/serie
      *  @return {areay} All apis name
      */
-    apis: findApi,
+    apis(type=false) {
+      return findApi(type).map( api => { return api.name });
+    },
 
     /**
      *  Get informations about a specific api

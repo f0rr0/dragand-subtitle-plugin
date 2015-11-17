@@ -17,6 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Dragand Subtitles Plugin
  * Factory pattern
+ * @param {object} options
  * @return object with properties and methods
  */
 
@@ -46,10 +47,8 @@ exports.default = function () {
 
     return apis.filter(function (api) {
       return !type ? api : api.type.indexOf(type) != -1;
-    }).map(function (api) {
-      return api.name;
     }).filter(function (api) {
-      return excludes.indexOf(api) == -1;
+      return excludes.indexOf(api.name) == -1;
     });
   };
 
@@ -117,7 +116,13 @@ exports.default = function () {
      *  @param {string} type of subtitles movie/serie
      *  @return {areay} All apis name
      */
-    apis: findApi,
+    apis: function apis() {
+      var type = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+      return findApi(type).map(function (api) {
+        return api.name;
+      });
+    },
 
     /**
      *  Get informations about a specific api

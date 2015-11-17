@@ -85,7 +85,7 @@ describe('.apis() method', () => {
   it('Should return an array of api for series', () => {
     let DragandSubtitles = DS();
     assert.equal(true, _.isArray(DragandSubtitles.apis("serie")));
-    assert.equal(0, DragandSubtitles.apis("serie").length);
+    assert.equal(1, DragandSubtitles.apis("serie").length);
   });
 
   it('Should return an array of api for movies', () => {
