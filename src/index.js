@@ -44,8 +44,6 @@ export default ({ excludes = [] } = {}) => {
    * @return {boolean}
    */
   const validApiOptions = (parameters, apisOptions) => {
-    console.log(parameters);
-    console.log(apisOptions);
     let missing = apisOptions.filter( param => !parameters[param] );
     return missing.length > 0 ? false : true;
   }
