@@ -51,6 +51,8 @@ export default ({ excludes = [] } = {}) => {
 
   /* Object API return */
   return {
+
+    /* Excludes apis */
     excludes: excludes,
 
     /**
@@ -61,7 +63,7 @@ export default ({ excludes = [] } = {}) => {
     getSerieSubtitles(parameters = {
       imdbid,
       filepath,
-      fileName
+      fileName,
       title,
       apis,
       languages,
@@ -72,35 +74,35 @@ export default ({ excludes = [] } = {}) => {
       stopOnFind = false
     } = {}) {
 
-      /* Get all series apis that match with parameters */
-      let seriesApis = getApis('serie').filter( api => validApiOptions(parameters, api.parameters.serie) );
+      /* Get all series apis that match with parameters and set options */
+      let seriesApis = getApis('serie')
+        .filter( api => validApiOptions(parameters, api.parameters.serie) )
+        .map( api => api.setOptions(parameters));
 
-      // Reject all apis that doesn't match parameters;
-
-      // ==> Check parameters
-      // If no apis ok --> return exception
-      // If at least one api is ok
-      // For each api
-      // Call them
     },
 
     /**
      *  Get subtitles for a specific movie
      *  @return {promise} promise with subs
      */
-    getMovieSubtitles({imdbid, filepath, title, apis, languages, type, stopOnFind } = {}) {
-      /* Get all series apis that match with parameters */
-      let moviesApis = getApis('movie').filter( api => validApiOptions(parameters, api.parameters.movie) );
+    getMovieSubtitles(parameters = {
+      imdbid,
+      filepath,
+      title,
+      apis,
+      languages,
+      type,
+      stopOnFind
+    } = {}) {
 
-      // ==> Check parameters
-      // If no apis ok --> return exception
-      // If at least one api is ok
-      // For each api
-      // Call them
+      /* Get all movies apis that match with parameters and set options */
+      let moviesApis = getApis('movie')
+        .filter(  api => validApiOptions(parameters, api.parameters.movie) )
+        .forEach( api => api.setOptions(parameters));
     },
 
     /**
-     *  Get all availabe apis
+     *  Get all available apis or a specific one
      *  @param {string} type of subtitles movie/serie
      *  @return {array} All apis name
      */
@@ -120,7 +122,7 @@ export default ({ excludes = [] } = {}) => {
 
     /**
      *  Get all library contributors
-     *  @return {promise} promise with subs
+     *  @return {array} contributors
      */
     credits(){
       return contributors;
