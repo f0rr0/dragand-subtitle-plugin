@@ -57,8 +57,8 @@ exports.default = function () {
 
     /* Necessary parameters */
     parameters: {
-      'serie': ['languages', 'imdbId', 'season', 'episode', 'fileName', 'filePath'],
-      'movie': ['languages', 'imdbId', 'fileName', 'filePath']
+      serie: ['languages', 'imdbId', 'season', 'episode', 'fileName', 'filePath'],
+      movie: ['languages', 'imdbId', 'fileName', 'filePath']
     },
 
     /**
