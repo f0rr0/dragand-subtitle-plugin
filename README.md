@@ -1,29 +1,16 @@
 # dragand-subtitle-plugin
-Open Source library to get availables subtitles from famous externals apis
+Open Source library to get availables subtitles from famous externals apis for
 
-# How to dev with use
-```shell
-$ git clone https://github.com/DragAndWatch/dragand-subtitle-plugin.git
-$ cd dragand-subtitle-plugin
+## Getting Started
 
-<!-- Test -->
-$ npm test
-
-<!-- Build Dist -->
-$ npm run build
-```
-
-
-## Goals :
-
-### Getting Started
-
+### Import
 ```javascript
 
   import DragandSubtitles from 'dragand-subtitle-plugin';
 
   // Initialisation and exclude some apis
   DragandSubtitles({
+    /* You can specify some apis you exclude */
     exclude: ["open-subtitles", "addicted"]
   });
 
@@ -32,15 +19,20 @@ $ npm run build
 ### Get Series subtitles
 ```javascript
 
+  /** Example
+  * Serie
+  * Getting subtitles from OpenSubtitles and addict7d
+  * Get them on french and english UK
+  */
   DragandSubtitles.getSerieSubtitles({
-    imdbid       : 123445,
-    filepath     : "filepath",
+    imdbid       : "tt0898266",
+    filepath     : "YOUR_FILE_PATH",
     release_group: "LOL",
     episode      : 1,
-    season       : 2,
-    title        : "Games Of Thrones",
-    apis         : ["open-subtitle", "addict7d"], // False --> all apis
-    languages    : ["fr", "uk"] // || false all available languages
+    season       : 1,
+    title        : "The Big Bang Theory",
+    apis         : ["open-subtitle", "addict7d"]
+    languages    : ["fr", "uk"]
   })
   .then( subs => {
     res.send(subs);
@@ -51,14 +43,16 @@ $ npm run build
 ### Get Movies subtitles
 ```javascript
 
+  /** Example
+  * Movie
+  * Getting subtitles from OpenSubtitles and addict7d
+  * Get them with all available languages
+  */
   DragandSubtitles.getMovieSubtitles({
-    imdbid       : 123445,
-    filepath     : "filepath",
+    imdbid       : "tt1375666",
+    filepath     : "YOUR_FILE_PATH",
     title        : "Inception",
-    apis         : ["open-subtitle", "addict7d"], // False --> all apis
-    languages    : ["fr", "uk"] // || false all available languages
-    type         : ["srt"] // || false
-    stopOnFind   : true // || stop the request when a subtitle is find
+    apis         : ["open-subtitle", "addict7d"]
   })
   .then( subs => {
     res.send(subs);
@@ -68,18 +62,19 @@ $ npm run build
 
 ### Return json
 
+All returned subtitles looks like that
 ```javascript
   [     
     {
       language: "fr",
       type: "srt",
       url: "http://www.something.com/sub.srt",
-      api: 'open-subtitles',
+      api: 'open-subtitles'
     }
   ]
 ```
 
-### Ideas Methods
+### API
 
 Get all availables apis
 ```javascript
@@ -98,5 +93,22 @@ Get all infos about a specific api
 ```javascript
 
   DragandSubtitles.credits() -->   // List all contributors from package.json
+
+```
+
+
+# Contribute
+
+Be sure to test all your modifications.
+
+```shell
+$ git clone https://github.com/DragAndWatch/dragand-subtitle-plugin.git
+$ cd dragand-subtitle-plugin
+
+<!-- Build Dist -->
+$ npm run build
+
+<!-- Test -->
+$ npm test
 
 ```

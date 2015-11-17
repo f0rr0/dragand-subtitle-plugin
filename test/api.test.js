@@ -33,7 +33,7 @@ apis.forEach( api => {
 
     describe('Checking properties', () => {
       it('should have a name as string', () => { assert.equal('string', typeof api.name); });
-      it('should have parameters as array', () => { assert.equal(true, _.isArray(api.parameters)); });
+      it('should have parameters as object', () => { assert.equal('object', typeof api.parameters ); });
       it('should have typeof as array', () => { assert.equal(true, _.isArray(api.type)); });
     });
 
