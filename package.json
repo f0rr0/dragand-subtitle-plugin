@@ -38,7 +38,9 @@
   },
   "homepage": "https://github.com/DragAndWatch/dragand-subtitle-plugin#readme",
   "dependencies": {
-    "lodash": "3.10.1"
+    "lodash": "3.10.1",
+    "opensubtitles-api": "^2.1.0",
+    "q": "^1.4.1"
   },
   "devDependencies": {
     "babel-core": "6.1.21",
