@@ -84,7 +84,7 @@ describe('.apis() method', () => {
   it('Should return an array of available apis choosen', () => {
     let DragandSubtitles = DS();
     assert.equal(true, _.isArray(DragandSubtitles.apis()));
-    expect(DragandSubtitles.apis()).to.have.members(["open-subtitle"]);
+    expect(DragandSubtitles.apis()).to.have.members(["open-subtitles"]);
   });
 
   it('Should return an array of api for series', () => {
@@ -106,7 +106,7 @@ describe('.apis() method', () => {
 describe('.api() method', () => {
   it('Should return an object with api information', () => {
     let DragandSubtitles = DS();
-    assert.equal('object', typeof DragandSubtitles.api('open-subtitle'));
+    assert.equal('object', typeof DragandSubtitles.api('open-subtitles'));
   });
 
   it('Should return undefined when api doesn\'t exist information', () => {
@@ -131,8 +131,8 @@ describe('.credits() method', () => {
 describe('.getSerieSubtitles() method', () => {
   it('Should return a promise', () => {
     let DragandSubtitles = DS();
-    assert.equal("function", typeof DragandSubtitles.getSerieSubtitles().then );
-    assert.equal("function", typeof DragandSubtitles.getSerieSubtitles().catch );
+    assert.equal("function", typeof DragandSubtitles.getSerieSubtitles({}).then );
+    assert.equal("function", typeof DragandSubtitles.getSerieSubtitles({}).catch );
   });
 });
 
