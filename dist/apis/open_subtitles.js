@@ -29,19 +29,17 @@ exports.default = function () {
   /* Format openSubtitles format to Dragand format */
   var formatJson = function formatJson(result) {
 
-    var resultFormated = [];
-
-    options.languages.forEach(function (language) {
-      Object.keys(result).forEach(function (index) {
-        if (index === language) {
-          resultFormated.push({
-            type: result[index].url.substr(result[index].url.lastIndexOf('.') + 1),
-            language: result[index].lang,
-            url: result[index].url,
-            api: apiName
-          });
-        }
-      });
+    var resultFormated = Object.keys(result).filter(function (key) {
+      return options.languages.indexOf(key) != -1;
+    }).map(function (key) {
+      return result[key];
+    }).map(function (sub) {
+      return {
+        type: sub.url.substr(sub.url.lastIndexOf('.') + 1),
+        language: sub.lang,
+        url: sub.url,
+        api: apiName
+      };
     });
 
     return resultFormated;
@@ -75,7 +73,7 @@ exports.default = function () {
     },
 
     /**
-     * Calling the API
+     * Calling the API for series
      * @return {promise} format data and errors
      */
     callSeries: function callSeries() {
@@ -86,6 +84,27 @@ exports.default = function () {
         imdbid: options.imdbId,
         season: options.season,
         episode: options.episode,
+        filename: options.fileName,
+        path: options.filePath
+      }).then(function (subtitles) {
+        deferred.resolve(formatJson(subtitles));
+      }).catch(function (error) {
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
+    },
+
+    /**
+     * Calling the API for movies
+     * @return {promise} format data and errors
+     */
+    callMovies: function callMovies() {
+      var deferred = _q2.default.defer();
+
+      openSubtitlesApi.search({
+        sublanguageid: 'all',
+        imdbid: options.imdbId,
         filename: options.fileName,
         path: options.filePath
       }).then(function (subtitles) {

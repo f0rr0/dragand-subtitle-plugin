@@ -15,35 +15,17 @@ export default () => {
   /* Format openSubtitles format to Dragand format */
   const formatJson = (result) => {
 
-    let resultFormated = [];
-
-    resultFormated = Object.keys(result).map( key => {
-      if (options.languages.indexOf(key) != -1) {
-        result[key].language = key;
-        return result[key];
-      }
-    })
+    let resultFormated = Object.keys(result)
+    .filter( key => options.languages.indexOf(key) != -1 )
+    .map( key => result[key] )
     .map( (sub) => {
       return {
-        type: sub.url.substr(result[index].url.lastIndexOf('.') + 1),
-        language: sub.language,
-        url: sub.url,
-        api: apiName
+        type    : sub.url.substr(sub.url.lastIndexOf('.') + 1),
+        language: sub.lang,
+        url     : sub.url,
+        api     : apiName
       };
     });
-
-    // options.languages.forEach((language) => {
-    //   Object.keys(result).forEach((index) => {
-    //     if(index === language) {
-    //       resultFormated.push({
-    //         type: result[index].url.substr(result[index].url.lastIndexOf('.') + 1),
-    //         language: result[index].lang,
-    //         url: result[index].url,
-    //         api: apiName
-    //       });
-    //     }
-    //   });
-    // });
 
     return resultFormated;
 
@@ -75,7 +57,7 @@ export default () => {
     },
 
     /**
-     * Calling the API
+     * Calling the API for series
      * @return {promise} format data and errors
      */
     callSeries() {
@@ -83,11 +65,32 @@ export default () => {
 
       openSubtitlesApi.search({
         sublanguageid: 'all',
-        imdbid: options.imdbId,
-        season: options.season,
-        episode: options.episode,
-        filename: options.fileName,
-        path: options.filePath
+        imdbid       : options.imdbId,
+        season       : options.season,
+        episode      : options.episode,
+        filename     : options.fileName,
+        path         : options.filePath
+      }).then(subtitles => {
+        deferred.resolve(formatJson(subtitles));
+      }).catch(error => {
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
+    },
+
+    /**
+     * Calling the API for movies
+     * @return {promise} format data and errors
+     */
+    callMovies() {
+      let deferred = Q.defer();
+
+      openSubtitlesApi.search({
+        sublanguageid: 'all',
+        imdbid       : options.imdbId,
+        filename     : options.fileName,
+        path         : options.filePath
       }).then(subtitles => {
         deferred.resolve(formatJson(subtitles));
       }).catch(error => {
