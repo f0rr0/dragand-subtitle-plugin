@@ -72,8 +72,6 @@ exports.default = function () {
    * @return {boolean}
    */
   var validApiOptions = function validApiOptions(parameters, apisOptions) {
-    console.log(parameters);
-    console.log(apisOptions);
     var missing = apisOptions.filter(function (param) {
       return !parameters[param];
     });
@@ -82,6 +80,8 @@ exports.default = function () {
 
   /* Object API return */
   return {
+
+    /* Excludes apis */
     excludes: excludes,
 
     /**
@@ -92,21 +92,14 @@ exports.default = function () {
     getSerieSubtitles: function getSerieSubtitles() {
       var _ref2, _ref2$stopOnFind;
 
-      var parameters = arguments.length <= 0 || arguments[0] === undefined ? (_ref2 = {}, imdbid = _ref2.imdbid, filepath = _ref2.filepath, title = _ref2.title, apis = _ref2.apis, languages = _ref2.languages, type = _ref2.type, episode = _ref2.episode, season = _ref2.season, release_group = _ref2.release_group, _ref2$stopOnFind = _ref2.stopOnFind, stopOnFind = _ref2$stopOnFind === undefined ? false : _ref2$stopOnFind, _ref2) : arguments[0];
+      var parameters = arguments.length <= 0 || arguments[0] === undefined ? (_ref2 = {}, imdbid = _ref2.imdbid, filepath = _ref2.filepath, fileName = _ref2.fileName, title = _ref2.title, apis = _ref2.apis, languages = _ref2.languages, type = _ref2.type, episode = _ref2.episode, season = _ref2.season, release_group = _ref2.release_group, _ref2$stopOnFind = _ref2.stopOnFind, stopOnFind = _ref2$stopOnFind === undefined ? false : _ref2$stopOnFind, _ref2) : arguments[0];
 
-      /* Get all series apis that match with parameters */
+      /* Get all series apis that match with parameters and set options */
       var seriesApis = getApis('serie').filter(function (api) {
         return validApiOptions(parameters, api.parameters.serie);
+      }).map(function (api) {
+        return api.setOptions(parameters);
       });
-      // let seriesApis = getApis('serie')
-      console.log(seriesApis);
-      // Reject all apis that doesn't match parameters;
-
-      // ==> Check parameters
-      // If no apis ok --> return exception
-      // If at least one api is ok
-      // For each api
-      // Call them
     },
 
     /**
@@ -114,28 +107,20 @@ exports.default = function () {
      *  @return {promise} promise with subs
      */
     getMovieSubtitles: function getMovieSubtitles() {
-      var _ref3 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var _ref3;
 
-      var imdbid = _ref3.imdbid;
-      var filepath = _ref3.filepath;
-      var title = _ref3.title;
-      var apis = _ref3.apis;
-      var languages = _ref3.languages;
-      var type = _ref3.type;
-      var stopOnFind = _ref3.stopOnFind;
+      var parameters = arguments.length <= 0 || arguments[0] === undefined ? (_ref3 = {}, imdbid = _ref3.imdbid, filepath = _ref3.filepath, title = _ref3.title, apis = _ref3.apis, languages = _ref3.languages, type = _ref3.type, stopOnFind = _ref3.stopOnFind, _ref3) : arguments[0];
 
-      /* For each movie apis */
-      var seriesApis = getApis('movie');
-
-      // ==> Check parameters
-      // If no apis ok --> return exception
-      // If at least one api is ok
-      // For each api
-      // Call them
+      /* Get all movies apis that match with parameters and set options */
+      var moviesApis = getApis('movie').filter(function (api) {
+        return validApiOptions(parameters, api.parameters.movie);
+      }).forEach(function (api) {
+        return api.setOptions(parameters);
+      });
     },
 
     /**
-     *  Get all availabe apis
+     *  Get all available apis or a specific one
      *  @param {string} type of subtitles movie/serie
      *  @return {array} All apis name
      */
@@ -163,7 +148,7 @@ exports.default = function () {
 
     /**
      *  Get all library contributors
-     *  @return {promise} promise with subs
+     *  @return {array} contributors
      */
     credits: function credits() {
       return _package.contributors;
