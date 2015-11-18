@@ -4,13 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _q = require('q');
-
-var _q2 = _interopRequireDefault(_q);
+var _yify = require('../helper/yify');
 
 var _request = require('request');
 
 var _request2 = _interopRequireDefault(_request);
+
+var _q = require('q');
+
+var _q2 = _interopRequireDefault(_q);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26,59 +28,6 @@ exports.default = function () {
   /* Define api url */
   var apiUrl = 'yifysubtitles.com';
 
-  /* Map language */
-  var languageMapping = {
-    'albanian': 'sq',
-    'arabic': 'ar',
-    'bengali': 'bn',
-    'bulgarian': 'bg',
-    'bosnian': 'bs',
-    'chinese': 'zh',
-    'croatian': 'hr',
-    'czech': 'cs',
-    'danish': 'da',
-    'dutch': 'nl',
-    'english': 'en',
-    'estonian': 'et',
-    'farsi-persian': 'fa',
-    'finnish': 'fi',
-    'french': 'fr',
-    'german': 'de',
-    'greek': 'el',
-    'hebrew': 'he',
-    'hungarian': 'hu',
-    'indonesian': 'id',
-    'italian': 'it',
-    'japanese': 'ja',
-    'korean': 'ko',
-    'lithuanian': 'lt',
-    'macedonian': 'mk',
-    'malay': 'ms',
-    'norwegian': 'no',
-    'polish': 'pl',
-    'portuguese': 'pt',
-    'romanian': 'ro',
-    'russian': 'ru',
-    'serbian': 'sr',
-    'slovenian': 'sl',
-    'spanish': 'es',
-    'swedish': 'sv',
-    'thai': 'th',
-    'turkish': 'tr',
-    'urdu': 'ur',
-    'ukrainian': 'uk',
-    'vietnamese': 'vi'
-  };
-
-  /* Return languaged mapped */
-  var getLanguageMapped = function getLanguageMapped(language) {
-    for (var key in languageMapping) {
-      if (languageMapping[key] === language) {
-        return key;
-      }
-    }
-  };
-
   /* Format yify format to Dragand format */
   var formatJson = function formatJson(result) {
 
@@ -87,7 +36,7 @@ exports.default = function () {
     // For each languages
     options.languages.forEach(function (language) {
 
-      var languageMapped = getLanguageMapped(language);
+      var languageMapped = _yify.yifyHelper.getLanguageMapped(language);
       var subs = result.subs[options.imdbId];
 
       Object.keys(subs).forEach(function (index) {

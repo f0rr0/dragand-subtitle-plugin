@@ -74,26 +74,26 @@ export class addic7edHelper {
 
   /* Check if the subtitles is ready */
   static getStatus(string) {
-		if(string === 'Completed') {
-			return 100;
-		}
+    if(string === 'Completed') {
+      return 100;
+    }
 
-		return parseInt(string.replace(' Completed', '').replace('%', ''));
+    return parseInt(string.replace(' Completed', '').replace('%', ''));
 	}
 
   /* Check if the release file */
   static compareReleaseGroup(releaseFile, releaseAddic7ed) {
 
-		releaseFile 	  = releaseFile.toLowerCase();
-		releaseAddic7ed = releaseAddic7ed.toLowerCase();
+    releaseFile 	  = releaseFile.toLowerCase();
+    releaseAddic7ed = releaseAddic7ed.toLowerCase();
 
-		if(releaseFile === releaseAddic7ed) {
-			return true;
-		} else {
-			const diceScore = natural.DiceCoefficient(releaseFile, releaseAddic7ed);
+    if(releaseFile === releaseAddic7ed) {
+      return true;
+    } else {
+      const diceScore = natural.DiceCoefficient(releaseFile, releaseAddic7ed);
 
       return (diceScore >= 0.5) ? true : false;
-		}
+    }
 
 	}
 
