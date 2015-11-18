@@ -97,7 +97,11 @@ export class addic7edHelper {
 
 	}
 
-  /* Scrapping addicted website and export data */
+  /**
+    Scrapping addicted website and export data
+    TODO Save data on a JSON on a file
+    TODO Check the date of the file, if is old => Create new file with new value from scrapping
+  */
   static scrapping() {
 
     let deferred = Q.defer();
