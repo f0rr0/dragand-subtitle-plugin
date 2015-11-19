@@ -1,6 +1,7 @@
 import {isArray} from 'lodash';
 import {contributors} from '../package.json';
 import ExternalApis from './apis';
+import Q from 'q';
 
 /**
  * Dragand Subtitles Plugin
@@ -8,7 +9,7 @@ import ExternalApis from './apis';
  * @param {object} options
  * @return object with properties and methods
  */
-export default ({ excludes = [] } = {}) => {
+module.exports = ({ excludes = [] } = {}) => {
   /*  Here private methods and private properties */
 
   /* Specified exlude as an array */
@@ -20,7 +21,7 @@ export default ({ excludes = [] } = {}) => {
   /**
    *  Get all availabe apis
    *  @param {string} type of subtitles movie/serie
-   *  @return {areay} All apis name
+   *  @return {array} All apis name
    */
   const getApis = (type = false) => {
     return apis
@@ -48,6 +49,47 @@ export default ({ excludes = [] } = {}) => {
     return missing.length > 0 ? false : true;
   }
 
+  /**
+   * Transform languages array to an object
+   * @param {array} languages
+   * @return {object}
+   */
+  const getLanguageToObject = (languages) => {
+    return languages.reduce( (obj, lang) => {
+      obj[lang] = false;
+      return obj
+    }, {});
+  };
+
+  /**
+   * Format all apis results to a human readable object
+   * @param {array} Q promise result (fulfilled & rejected)
+   * @return {object} final result object
+   */
+  const formatResult = (results) => {
+    return results
+    .filter( result => result.state == "fulfilled" )
+    .map( result => result.value )
+    .reduce( (concat, result) => [].concat(concat, result), [])
+    .reduce( (obj, item) => {
+      obj[item.language] = obj[item.language] || [];
+      obj[item.language].push(item);
+      return obj;
+    }, {});
+  };
+
+
+  /**
+   * Get Subtitles from apis
+   * @param {array} array of apis
+   * @param {promise}
+   */
+  const getSubtitles = (apis, parameters) => {
+    let languages = getLanguageToObject(parameters.languages);
+    return Q.allSettled(apis.map(api => api.callSeries() ))
+    .then( results => formatResult(results) );
+  }
+
 
   /* Object API return */
   return {
@@ -62,22 +104,26 @@ export default ({ excludes = [] } = {}) => {
      */
     getSerieSubtitles(parameters = {
       imdbid,
-      filepath,
+      filePath,
       fileName,
       title,
       apis,
       languages,
-      type,
       episode,
       season,
-      release_group,
+      releaseGroup,
       stopOnFind = false
     } = {}) {
 
       /* Get all series apis that match with parameters and set options */
       let seriesApis = getApis('serie')
         .filter( api => validApiOptions(parameters, api.parameters.serie) )
-        .map( api => api.setOptions(parameters));
+        .map( api => {
+          api.setOptions(parameters);
+          return api;
+        });
+
+      return getSubtitles(seriesApis, parameters);
 
     },
 
@@ -87,12 +133,11 @@ export default ({ excludes = [] } = {}) => {
      */
     getMovieSubtitles(parameters = {
       imdbid,
-      filepath,
+      filePath,
       title,
       apis,
       languages,
-      type,
-      stopOnFind
+      stopOnFind = false
     } = {}) {
 
       /* Get all movies apis that match with parameters and set options */

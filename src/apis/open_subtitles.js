@@ -22,7 +22,7 @@ export default () => {
     let resultFormated = Object.keys(result)
     .filter( key => options.languages.indexOf(key) != -1 )
     .map( key => result[key] )
-    .map( (sub) => {
+    .map( sub => {
       return {
         type    : sub.url.substr(sub.url.lastIndexOf('.') + 1),
         language: sub.lang,
@@ -64,9 +64,9 @@ export default () => {
      * Calling the API for series
      * @return {promise} format data and errors
      */
-    callSeries() {
+    callSeries(test) {
       let deferred = Q.defer();
-
+      if (test) options.filePath = "eifjefoeifjefoe";
       openSubtitlesApi.search({
         sublanguageid: 'all',
         imdbid       : options.imdbId,

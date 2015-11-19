@@ -20,13 +20,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = function () {
 
-  /* Define apiName */
+  /* Define api name */
   var apiName = 'open-subtitles';
 
   /* Define opensubtitles-api instance */
   var openSubtitlesApi = new _opensubtitlesApi2.default('OSTestUserAgent');
 
-  /* Format openSubtitles format to Dragand format */
+  /**
+   * Format openSubtitles result to Dragand format
+   * @param {object} result
+   * @return {array} array of subtitles
+   */
   var formatJson = function formatJson(result) {
 
     var resultFormated = Object.keys(result).filter(function (key) {
@@ -57,14 +61,14 @@ exports.default = function () {
 
     /* Necessary parameters */
     parameters: {
-      serie: ['languages', 'imdbId', 'season', 'episode', 'fileName', 'filePath'],
+      serie: ['languages', 'imdbId', 'fileName', 'filePath', 'season', 'episode'],
       movie: ['languages', 'imdbId', 'fileName', 'filePath']
     },
 
     /**
      * Set options before call
-     * @param {object} configuration
-     * @return {boolean} is configuration is valid
+     * @param {object} options
+     * @return {object} this
      */
     setOptions: function setOptions() {
       var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
@@ -76,9 +80,9 @@ exports.default = function () {
      * Calling the API for series
      * @return {promise} format data and errors
      */
-    callSeries: function callSeries() {
+    callSeries: function callSeries(test) {
       var deferred = _q2.default.defer();
-
+      if (test) options.filePath = "eifjefoeifjefoe";
       openSubtitlesApi.search({
         sublanguageid: 'all',
         imdbid: options.imdbId,
