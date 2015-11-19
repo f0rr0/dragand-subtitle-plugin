@@ -19,10 +19,11 @@ module.exports = () => {
 
     result.forEach((sub) => {
       resultFormated.push({
-        type    : 'srt',
-        language: sub.language,
-        url     : `http://${apiUrl + sub.url}`,
-        api     : apiName
+        type        : 'srt',
+        language    : sub.language,
+        releaseGroup: sub.releaseGroup,
+        url         : `http://${apiUrl + sub.url}`,
+        api         : apiName
       });
     });
 

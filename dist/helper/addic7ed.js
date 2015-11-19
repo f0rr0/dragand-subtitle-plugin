@@ -174,7 +174,7 @@ var addic7edHelper = exports.addic7edHelper = (function () {
                   });
                 });
 
-                // Write all shows in a cache.json
+                /* Write all shows in a cache.json */
                 _fs2.default.writeFile(fileName, JSON.stringify(shows));
               })();
             }
@@ -258,6 +258,7 @@ var addic7edHelper = exports.addic7edHelper = (function () {
                 if (percent >= 90) {
                   subs.push({
                     language: options.languages[counter],
+                    releaseGroup: $(columns[4]).text(),
                     url: $(columns[9]).find('a').first().attr('href')
                   });
                 }

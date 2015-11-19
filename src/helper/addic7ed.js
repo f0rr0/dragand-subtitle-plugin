@@ -128,7 +128,7 @@ export class addic7edHelper {
               });
             });
 
-            // Write all shows in a cache.json
+            /* Write all shows in a cache.json */
             fs.writeFile(fileName, JSON.stringify(shows));
 
           }
@@ -210,8 +210,9 @@ export class addic7edHelper {
 
             if(percent >= 90) {
               subs.push({
-                language: options.languages[counter],
-                url     : $(columns[9]).find('a').first().attr('href')
+                language    : options.languages[counter],
+                releaseGroup: $(columns[4]).text(),
+                url         : $(columns[9]).find('a').first().attr('href')
               });
             }
 
