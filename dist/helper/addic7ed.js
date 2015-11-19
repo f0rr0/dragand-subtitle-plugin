@@ -19,6 +19,14 @@ var _natural = require('natural');
 
 var _natural2 = _interopRequireDefault(_natural);
 
+var _moment = require('moment');
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
+
 var _q = require('q');
 
 var _q2 = _interopRequireDefault(_q);
@@ -140,25 +148,42 @@ var addic7edHelper = exports.addic7edHelper = (function () {
     value: function scrapping() {
 
       var deferred = _q2.default.defer();
+      var fileName = __dirname + '/cache.json';
       var shows = [];
 
-      /* Making the request */
-      (0, _request2.default)('http://www.addic7ed.com/shows.php', function (error, response, body) {
+      _fs2.default.stat(fileName, function (error, stats) {
 
-        if (!error && response.statusCode === 200) {
-          (function () {
-            var $ = _cheerio2.default.load(body);
+        /* Check expiration */
+        var birth = (0, _moment2.default)(stats.birthtime);
+        var last_week = (0, _moment2.default)().add(-8, 'days');
 
-            $('h3 > a').each(function (index, element) {
-              shows.push({
-                name: $(element).text(),
-                id: /\d+/.exec($(element).attr('href'))[0]
-              });
-            });
-          })();
+        /* File not exist */
+        if (!stats || birth.isSame(last_week, 'day')) {
+
+          /* Making the request */
+          (0, _request2.default)('http://www.addic7ed.com/shows.php', function (error, response, body) {
+
+            if (!error && response.statusCode === 200) {
+              (function () {
+                var $ = _cheerio2.default.load(body);
+
+                $('h3 > a').each(function (index, element) {
+                  shows.push({
+                    name: $(element).text(),
+                    id: /\d+/.exec($(element).attr('href'))[0]
+                  });
+                });
+
+                // Write all shows in a cache.json
+                _fs2.default.writeFile(fileName, JSON.stringify(shows));
+              })();
+            }
+
+            return deferred.resolve(shows);
+          });
         }
 
-        deferred.resolve(shows);
+        deferred.resolve(JSON.parse(_fs2.default.readFileSync(fileName, 'utf8')));
       });
 
       return deferred.promise;

@@ -1,6 +1,8 @@
 import request from 'request';
 import cheerio from 'cheerio';
 import natural from 'natural';
+import moment from 'moment';
+import fs from 'fs';
 import Q from 'q';
 
 /**
@@ -97,31 +99,47 @@ export class addic7edHelper {
 
 	}
 
-  /**
-    Scrapping addicted website and export data
-    TODO Save data on a JSON on a file
-    TODO Check the date of the file, if is old => Create new file with new value from scrapping
-  */
+  /* Scrapping addicted website and export data */
   static scrapping() {
 
     let deferred = Q.defer();
-    let shows = [];
+    let fileName = __dirname + '/cache.json';
+    let shows    = [];
 
-    /* Making the request */
-    request('http://www.addic7ed.com/shows.php', (error, response, body) => {
+    fs.stat(fileName, (error, stats) => {
 
-      if(!error && response.statusCode === 200) {
-        let $ = cheerio.load(body);
+      /* Check expiration */
+      let birth     = moment(stats.birthtime);
+      let last_week = moment().add(-8, 'days');
 
-        $('h3 > a').each(function(index, element){
-          shows.push({
-            name: $(element).text(),
-            id  : /\d+/.exec($(element).attr('href'))[0]
-          });
+      /* File not exist */
+      if (!stats || birth.isSame(last_week, 'day')) {
+
+        /* Making the request */
+        request('http://www.addic7ed.com/shows.php', (error, response, body) => {
+
+          if(!error && response.statusCode === 200) {
+            let $ = cheerio.load(body);
+
+            $('h3 > a').each(function(index, element){
+              shows.push({
+                name: $(element).text(),
+                id  : /\d+/.exec($(element).attr('href'))[0]
+              });
+            });
+
+            // Write all shows in a cache.json
+            fs.writeFile(fileName, JSON.stringify(shows));
+
+          }
+
+          return deferred.resolve(shows);
+
         });
+
       }
 
-      deferred.resolve(shows);
+      deferred.resolve(JSON.parse(fs.readFileSync(fileName, 'utf8')));
 
     });
 
@@ -129,7 +147,7 @@ export class addic7edHelper {
 
   }
 
-  static getSerieId (addic7edSeriesMapping, serieName) {
+  static getSerieId(addic7edSeriesMapping, serieName) {
 
     let deferred = Q.defer();
     let serieId  = null;
