@@ -1,5 +1,5 @@
 # dragand-subtitle-plugin
-Open Source library to get availables subtitles from famous externals apis like OpenSubtitles, Addic7ed, Yify subtitles or Podnapisi.
+Open Source library to get subtitles from famous externals apis like OpenSubtitles, Addic7ed, Yify subtitles or Podnapisi.
 
 ## Getting Started
 
@@ -19,7 +19,7 @@ Open Source library to get availables subtitles from famous externals apis like 
   /** Example
   * Serie
   * Get subtitles from all apis
-  * Get them on french and english UK
+  * Get french and english UK
   */
   DS.getSerieSubtitles({
     imdbId      : 'tt3749900',
@@ -103,7 +103,7 @@ All returned subtitles looks like that
 
 ```
 
-### Available apis
+### External Apis
 
   - #### Open subtitles
     - Types: Movies & Series
@@ -142,7 +142,7 @@ All returned subtitles looks like that
 
 ```
 
-Get all available apis names
+Get all apis names
 ```javascript
 
   DS.apis() -->  // [];
@@ -164,7 +164,7 @@ Get all infos about a specific api
 
 # Next version
 
-- Get all languages available for a subtitles
+- Get all languages for a subtitles
 - Resolve until one finished
 - New apis
 
