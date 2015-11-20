@@ -1,7 +1,7 @@
 {
   "name": "dragand-subtitle-plugin",
   "version": "1.0.0",
-  "description": "Open Source library to get availables subtitles from famous externals apis",
+  "description": "Open Source library to get subtitles from famous externals apis",
   "contributors": [
     {
       "name": "Mathieu Le Tyrant",
@@ -27,12 +27,14 @@
   },
   "keywords": [
     "subtitles",
-    "APIS",
+    "apis",
     "opensubtitles",
-    "addict7d",
     "open-subtitles",
-    "Podnapisi",
-    "Yify"
+    "addic7ed",
+    "movies",
+    "series"
+    "podnapisi",
+    "yify"
   ],
   "author": "Arthur Mialon <arthurmialon@gmail.com> (http://www.arthurmialon.fr/)",
   "license": "MIT",

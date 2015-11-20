@@ -4,14 +4,22 @@ Open Source library to get subtitles from famous externals apis like OpenSubtitl
 ## Getting Started
 
 ### Import
-```javascript
+  - ES6
+    ```javascript
 
-  import {DragandSubtitles} from 'dragand-subtitle-plugin';
+      import {DragandSubtitles} from 'dragand-subtitle-plugin';
 
-  /* Initialisation */
-  let DS = DragandSubtitles();
+      /* Initialisation */
+      let DS = DragandSubtitles();
 
-```
+    ```
+
+  - ES5
+    ```javascript
+
+      var DS = require('dragand-subtitle-plugin').DragandSubtitles();
+
+    ```
 
 ### Get Series subtitles
 ```javascript
