@@ -109,11 +109,15 @@ export class addic7edHelper {
     fs.stat(fileName, (error, stats) => {
 
       /* Check expiration */
-      let birth     = moment(stats.birthtime);
-      let last_week = moment().add(-8, 'days');
+      let old = false;
+      if(stats) {
+        let birth     = moment(stats.birthtime);
+        let last_week = moment().add(-8, 'days');
+        old = birth.isSame(last_week, 'day');
+      }
 
       /* File not exist */
-      if (!stats || birth.isSame(last_week, 'day')) {
+      if (!stats || old) {
 
         /* Making the request */
         request('http://www.addic7ed.com/shows.php', (error, response, body) => {

@@ -154,11 +154,15 @@ var addic7edHelper = exports.addic7edHelper = (function () {
       _fs2.default.stat(fileName, function (error, stats) {
 
         /* Check expiration */
-        var birth = (0, _moment2.default)(stats.birthtime);
-        var last_week = (0, _moment2.default)().add(-8, 'days');
+        var old = false;
+        if (stats) {
+          var birth = (0, _moment2.default)(stats.birthtime);
+          var last_week = (0, _moment2.default)().add(-8, 'days');
+          old = birth.isSame(last_week, 'day');
+        }
 
         /* File not exist */
-        if (!stats || birth.isSame(last_week, 'day')) {
+        if (!stats || old) {
 
           /* Making the request */
           (0, _request2.default)('http://www.addic7ed.com/shows.php', function (error, response, body) {
