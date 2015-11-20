@@ -3,7 +3,7 @@
  * Using babel compilers
  */
 
-import DS from '../dist/index.js';
+import {DragandSubtitles} from '../dist/index.js';
 import assert from 'assert';
 import _ from 'lodash';
 import {expect} from 'chai';
@@ -14,7 +14,7 @@ import {expect} from 'chai';
 describe('Require DragandSubtitles', () => {
 
   it('should be a function', () => {
-    assert.equal('function', typeof DS);
+    assert.equal('function', typeof DragandSubtitles);
   });
 
 });
@@ -24,55 +24,30 @@ describe('Require DragandSubtitles', () => {
  */
 describe('DragandSubtitles initialisation', () => {
 
-  let DragandSubtitles = DS();
+  let DS = DragandSubtitles();
 
   it('should be a object on return', () => {
-    assert.equal('object', typeof DragandSubtitles);
+    assert.equal('object', typeof DS);
   });
 
   it('should have a .getSerieSubtitles() method', () => {
-    assert.equal('function', typeof DragandSubtitles.getSerieSubtitles);
+    assert.equal('function', typeof DS.getSerieSubtitles);
   });
 
   it('should have a .getMovieSubtitles() method', () => {
-    assert.equal('function', typeof DragandSubtitles.getMovieSubtitles);
+    assert.equal('function', typeof DS.getMovieSubtitles);
   });
 
   it('should have an .apis() method', () => {
-    assert.equal('function', typeof DragandSubtitles.apis);
+    assert.equal('function', typeof DS.apis);
   });
 
   it('should have an .api() method', () => {
-    assert.equal('function', typeof DragandSubtitles.api);
+    assert.equal('function', typeof DS.api);
   });
 
   it('should have an .credits() method', () => {
-    assert.equal('function', typeof DragandSubtitles.credits);
-  });
-
-});
-
-/**
- * Checking default values
- */
-describe('Checking default values', () => {
-
-  /**
-   *  Testing exclude options type
-   */
-  it('Excludes options should always be an array', () => {
-    let DragandSubtitles_1 = DS({ excludes: "not an array" });
-    let DragandSubtitles_2 = DS({excludes: {}});
-    let DragandSubtitles_3 = DS({excludes: 1});
-    let DragandSubtitles_4 = DS({excludes: [1, 2, 3, 4] });
-
-    assert.equal(0, DragandSubtitles_1.excludes.length);
-    assert.equal(true, _.isArray(DragandSubtitles_1.excludes));
-    assert.equal(0, DragandSubtitles_2.excludes.length);
-    assert.equal(true, _.isArray(DragandSubtitles_2.excludes));
-    assert.equal(0, DragandSubtitles_3.excludes.length);
-    assert.equal(true, _.isArray(DragandSubtitles_3.excludes));
-    assert.equal(4, DragandSubtitles_4.excludes.length);
+    assert.equal('function', typeof DS.credits);
   });
 
 });
@@ -82,21 +57,21 @@ describe('Checking default values', () => {
  */
 describe('.apis() method', () => {
   it('Should return an array of available apis choosen', () => {
-    let DragandSubtitles = DS();
-    assert.equal(true, _.isArray(DragandSubtitles.apis()));
-    expect(DragandSubtitles.apis()).to.have.members(["open-subtitles"]);
+    let DS = DragandSubtitles();
+    assert.equal(true, _.isArray(DS.apis()));
+    expect(3, DS.apis().length);
   });
 
   it('Should return an array of api for series', () => {
-    let DragandSubtitles = DS();
-    assert.equal(true, _.isArray(DragandSubtitles.apis("serie")));
-    assert.equal(1, DragandSubtitles.apis("serie").length);
+    let DS = DragandSubtitles();
+    assert.equal(true, _.isArray(DS.apis("serie")));
+    assert.equal(2, DS.apis("serie").length);
   });
 
   it('Should return an array of api for movies', () => {
-    let DragandSubtitles = DS();
-    assert.equal(true, _.isArray(DragandSubtitles.apis("movie")));
-    assert.equal(1, DragandSubtitles.apis("movie").length);
+    let DS = DragandSubtitles();
+    assert.equal(true, _.isArray(DS.apis("movie")));
+    assert.equal(2, DS.apis("movie").length);
   });
 });
 
@@ -105,13 +80,13 @@ describe('.apis() method', () => {
  */
 describe('.api() method', () => {
   it('Should return an object with api information', () => {
-    let DragandSubtitles = DS();
-    assert.equal('object', typeof DragandSubtitles.api('open-subtitles'));
+    let DS = DragandSubtitles();
+    assert.equal('object', typeof DS.api('open-subtitles'));
   });
 
   it('Should return undefined when api doesn\'t exist information', () => {
-    let DragandSubtitles = DS();
-    assert.equal(undefined, DragandSubtitles.api('open-subtitle-not-exist'));
+    let DS = DragandSubtitles();
+    assert.equal(undefined, DS.api('open-subtitle-not-exist'));
   });
 });
 
@@ -120,8 +95,8 @@ describe('.api() method', () => {
  */
 describe('.credits() method', () => {
   it('Should return an array of all contributors', () => {
-    let DragandSubtitles = DS();
-    assert.equal(true, _.isArray(DragandSubtitles.credits()));
+    let DS = DragandSubtitles();
+    assert.equal(true, _.isArray(DS.credits()));
   });
 });
 
@@ -130,19 +105,33 @@ describe('.credits() method', () => {
  */
 describe('.getSerieSubtitles() method', () => {
   it('Should return a promise', () => {
-    let DragandSubtitles = DS();
-    assert.equal("function", typeof DragandSubtitles.getSerieSubtitles({}).then );
-    assert.equal("function", typeof DragandSubtitles.getSerieSubtitles({}).catch );
+    let DS = DragandSubtitles();
+    let options = {
+      imdbId: 'tt3749900',
+      filePath: '/Users/arthur/Desktop/gotham.209.hdtv-lol\[ettv\].mp4',
+      fileName: 'gotham.209.hdtv-lol[ettv].mp4',
+      title: 'Gotham',
+      apis: ["addic7ed", "open-subtitles"],
+      languages: ["fr", "en"],
+      episode: 9,
+      season: 2,
+      releaseGroup: 'lol'
+    };
+
+    let promise = DS.getSerieSubtitles(options);
+
+    assert.equal("function", typeof promise.then );
+    assert.equal("function", typeof promise.catch );
   });
 });
 
-/**
- * .getMovieSubtitles() Method
- */
-describe('.getMovieSubtitles() method', () => {
-  it('Should return a promise', () => {
-    let DragandSubtitles = DS();
-    assert.equal("function", typeof DragandSubtitles.getMovieSubtitles().then );
-    assert.equal("function", typeof DragandSubtitles.getMovieSubtitles().catch );
-  });
-});
+// /**
+//  * .getMovieSubtitles() Method
+//  */
+// describe('.getMovieSubtitles() method', () => {
+//   it('Should return a promise', () => {
+//     let DS = DragandSubtitles();
+//     assert.equal("function", typeof DS.getMovieSubtitles().then );
+//     assert.equal("function", typeof DS.getMovieSubtitles().catch );
+//   });
+// });

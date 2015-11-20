@@ -9,14 +9,8 @@ import Q from 'q';
  * @param {object} options
  * @return object with properties and methods
  */
-module.exports = ({ excludes = [] } = {}) => {
-  /*  Here private methods and private properties */
+const DragandSubtitles = () => {
 
-  /* Specified exlude as an array */
-  if (!isArray(excludes)) { excludes = []; }
-
-  /* Get all apis name and remove excludes ones */
-  let apis = ExternalApis;
 
   /**
    *  Get all availabe apis
@@ -24,10 +18,9 @@ module.exports = ({ excludes = [] } = {}) => {
    *  @return {array} All apis name
    */
   const getApis = (type = false) => {
-    return apis
+    return ExternalApis
     .filter( api => { return (!type) ? api : api.type.indexOf(type) != -1; })
-    .filter( api => { return excludes.indexOf(api.name) == -1; });
-  }
+  };
 
   /**
    * Get apis by names
@@ -36,7 +29,7 @@ module.exports = ({ excludes = [] } = {}) => {
    */
   const getApisByName = (names = []) => {
     return getApis().filter( api => { return names.indexOf(api.name) != -1; })
-  }
+  };
 
   /**
    * Check if all options are valid
@@ -45,21 +38,9 @@ module.exports = ({ excludes = [] } = {}) => {
    * @return {boolean}
    */
   const validApiOptions = (parameters, apisOptions) => {
-    let missing = apisOptions.filter( param => !parameters[param] );
-    return missing.length > 0 ? false : true;
-  }
-
-  /**
-   * Transform languages array to an object
-   * @param {array} languages
-   * @return {object}
-   */
-  const getLanguageToObject = (languages) => {
-    return languages.reduce( (obj, lang) => {
-      obj[lang] = false;
-      return obj
-    }, {});
+    return apisOptions.filter( param => !parameters[param] ).length > 0 ? false : true;
   };
+
 
   /**
    * Format all apis results to a human readable object
@@ -84,18 +65,18 @@ module.exports = ({ excludes = [] } = {}) => {
    * @param {array} array of apis
    * @param {promise}
    */
-  const getSubtitles = (apis, parameters) => {
-    let languages = getLanguageToObject(parameters.languages);
-    return Q.allSettled(apis.map(api => api.callSeries() ))
+  const getSubtitles = (type, apis, parameters) => {
+    return Q.allSettled(
+      apis.map(api =>{
+        return (type == "serie") ? api.callSeries() : api.callMovies();
+      })
+    )
     .then( results => formatResult(results) );
-  }
+  };
 
 
   /* Object API return */
   return {
-
-    /* Excludes apis */
-    excludes: excludes,
 
     /**
      *  Get subtitles for a specific serie
@@ -103,7 +84,7 @@ module.exports = ({ excludes = [] } = {}) => {
      *  @return {promise} promise with subs
      */
     getSerieSubtitles(parameters = {
-      imdbid,
+      imdbId,
       filePath,
       fileName,
       title,
@@ -111,24 +92,26 @@ module.exports = ({ excludes = [] } = {}) => {
       languages,
       episode,
       season,
-      releaseGroup,
-      stopOnFind = false
+      releaseGroup
     } = {}) {
 
-      /* Get all series apis that match with parameters and set options */
+      /* Get all series apis that match with parameters, filter api requested, and set options */
       let seriesApis = getApis('serie')
+        .filter( api =>{
+          return (!parameters.apis) ? true : parameters.apis.indexOf(api.name) != -1;
+        })
         .filter( api => validApiOptions(parameters, api.parameters.serie) )
         .map( api => {
           api.setOptions(parameters);
           return api;
         });
 
-      return getSubtitles(seriesApis, parameters);
-
+      return getSubtitles("serie", seriesApis, parameters);
     },
 
     /**
      *  Get subtitles for a specific movie
+     *  @param {object} options
      *  @return {promise} promise with subs
      */
     getMovieSubtitles(parameters = {
@@ -136,14 +119,19 @@ module.exports = ({ excludes = [] } = {}) => {
       filePath,
       title,
       apis,
-      languages,
-      stopOnFind = false
+      languages
     } = {}) {
 
       /* Get all movies apis that match with parameters and set options */
       let moviesApis = getApis('movie')
+        .filter( api => parameters.apis.indexOf(api.name) != -1 )
         .filter(  api => validApiOptions(parameters, api.parameters.movie) )
-        .forEach( api => api.setOptions(parameters));
+        .map( api => {
+          api.setOptions(parameters);
+          return api;
+        });
+
+      return getSubtitles("movie", moviesApis, parameters);
     },
 
     /**
@@ -175,3 +163,5 @@ module.exports = ({ excludes = [] } = {}) => {
   };
 
 };
+
+export {DragandSubtitles}

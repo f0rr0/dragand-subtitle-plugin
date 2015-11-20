@@ -38,8 +38,16 @@ apis.forEach( api => {
     });
 
     describe('Checking methods', () => {
-      it('should have a .callSeries() method', () => { assert.equal('function', typeof api.callSeries); });
-      it('should have a .callMovies() method', () => { assert.equal('function', typeof api.callMovies); });
+      describe('Checking .callSeries', () => {
+        if (api.type.indexOf('serie') != -1) {
+          it('should have a .callSeries() method', () => { assert.equal('function', typeof api.callSeries); });
+        }
+      });
+      describe('Checking .callMovies', () => {
+        if (api.type.indexOf('movie') != -1) {
+          it('should have a .callMovies() method', () => { assert.equal('function', typeof api.callMovies); });
+        }
+      });
       it('should have a .setOptions() method', () => { assert.equal('function', typeof api.setOptions); });
     });
 

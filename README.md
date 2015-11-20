@@ -1,18 +1,15 @@
 # dragand-subtitle-plugin
-Open Source library to get availables subtitles from famous externals apis for
+Open Source library to get availables subtitles from famous externals apis like OpenSubtitles, Addic7ed, Yify subtitles or Podnapisi.
 
 ## Getting Started
 
 ### Import
 ```javascript
 
-  import DragandSubtitles from 'dragand-subtitle-plugin';
+  import {DragandSubtitles} from 'dragand-subtitle-plugin';
 
-  // Initialisation and exclude some apis
-  DragandSubtitles({
-    /* You can specify some apis you want to exclude */
-    exclude: ["open-subtitles", "addicted"]
-  });
+  /* Initialisation */
+  let DS = DragandSubtitles();
 
 ```
 
@@ -21,18 +18,18 @@ Open Source library to get availables subtitles from famous externals apis for
 
   /** Example
   * Serie
-  * Getting subtitles from OpenSubtitles and addict7d
+  * Get subtitles from all apis
   * Get them on french and english UK
   */
-  DragandSubtitles.getSerieSubtitles({
-    imdbid       : "tt0898266",
-    filepath     : "YOUR_FILE_PATH",
-    release_group: "LOL",
-    episode      : 1,
-    season       : 1,
-    title        : "The Big Bang Theory",
-    apis         : ["open-subtitle", "addict7d"]
-    languages    : ["fr", "uk"]
+  DS.getSerieSubtitles({
+    imdbId      : 'tt3749900',
+    filePath    : '/Users/<YOU_USER>/Desktop/gotham.209.hdtv-lol\[ettv\].mp4',
+    fileName    : 'gotham.209.hdtv-lol[ettv].mp4',
+    title       : 'Gotham',
+    languages   : ["fr", "en"],
+    episode     : 9,
+    season      : 2,
+    releaseGroup: 'lol'
   })
   .then( subs => {
     res.send(subs);
@@ -45,14 +42,15 @@ Open Source library to get availables subtitles from famous externals apis for
 
   /** Example
   * Movie
-  * Getting subtitles from OpenSubtitles and addict7d
-  * Get them with all available languages
+  * Get subtitles from OpenSubtitles and addic7ed only
+  * Get only french
   */
-  DragandSubtitles.getMovieSubtitles({
+  DS.getMovieSubtitles({
     imdbid       : "tt1375666",
     filepath     : "YOUR_FILE_PATH",
     title        : "Inception",
-    apis         : ["open-subtitle", "addict7d"]
+    apis         : ["open-subtitle", "addict7ed"]
+    languages    : ["fr"]
   })
   .then( subs => {
     res.send(subs);
@@ -64,38 +62,111 @@ Open Source library to get availables subtitles from famous externals apis for
 
 All returned subtitles looks like that
 ```javascript
-  [     
-    {
-      language: "fr",
-      type: "srt",
-      url: "http://www.something.com/sub.srt",
-      api: 'open-subtitles'
-    }
-  ]
+{
+  en:
+    [
+      {
+        type: 'srt',
+        language: 'en',
+        url: 'http://dl.opensubtitles.org/en/download/filead/src-api/vrf-19ec0c5f/sid-tu1tu3mi30l5si6vonfa6pnrk1/1954966725.srt',
+        api: 'open-subtitles'
+      },
+      {
+        type: 'srt',
+        language: 'en',
+        url: 'http://addic7ed.com/updated/1/106170/0',
+        api: 'addic7ed'
+      },
+      {
+        type: 'srt',
+        language: 'en',
+        url: 'http://addic7ed.com/updated/1/106170/1',
+        api: 'addic7ed'
+      }
+    ],
+  fr:
+    [
+      {
+        type: 'srt',
+        language: 'fr',
+        url: 'http://dl.opensubtitles.org/en/download/filead/src-api/vrf-19ed0c62/sid-tu1tu3mi30l5si6vonfa6pnrk1/1954967439.srt',
+        api: 'open-subtitles'
+      },
+      {
+        type: 'srt',
+        language: 'fr',
+        url: 'http://addic7ed.com/updated/8/106170/0',
+        api: 'addic7ed'
+      }
+    ]
+}
+
 ```
+
+### Available apis
+
+  - #### Open subtitles
+    - Types: Movies & Series
+    - Parameters:
+      - Serie: [ 'languages', 'imdbId', 'fileName', 'filePath', 'season', 'episode' ]
+      - Movie: [ 'languages', 'imdbId', 'fileName', 'filePath' ]
+
+  - #### Addic7ed
+    - Types: Series
+    - Parameters:
+      - Serie: [ 'languages', 'title', 'episode', 'season', 'releaseGroup' ]
+
+  - #### Yify subtitles
+    - Types: Movies
+    - Parameters:
+      - Movie: ['languages', 'imdbId']
+
+  - #### Podnapisi
+    - Types: Movies & Series
+    - Parameters:
+      - Serie: ['languages', 'title', 'episode', 'season']
+      - Movie: ['languages', 'title']
 
 ### API
 
-Get all availables apis
+
 ```javascript
 
-  DragandSubtitles.apis() -->  // ["open-subtitles", "addicted"];
+  DS.getSeriesSubtitles() -->  // promise;
+
+```
+
+```javascript
+
+  DS.getMoviesSubtitles() -->  // promise;
+
+```
+
+Get all available apis names
+```javascript
+
+  DS.apis() -->  // [];
 
 ```
 
 Get all infos about a specific api
 ```javascript
 
-  DragandSubtitles.api('open-subtitles') -->   // { name: "open-subtitles", etc...}
+  DS.api('open-subtitles') -->   // {}
 
 ```
 
 ```javascript
 
-  DragandSubtitles.credits() -->   // List all contributors from package.json
+  DS.credits() -->   // List all contributors
 
 ```
 
+# Next version
+
+- Get all languages available for a subtitles
+- Resolve until one finished
+- New apis
 
 # Contribute
 

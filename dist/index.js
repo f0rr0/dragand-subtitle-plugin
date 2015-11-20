@@ -1,5 +1,10 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DragandSubtitles = undefined;
+
 var _lodash = require('lodash');
 
 var _package = require('../package.json');
@@ -20,21 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param {object} options
  * @return object with properties and methods
  */
-module.exports = function () {
-  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-  var _ref$excludes = _ref.excludes;
-  var excludes = _ref$excludes === undefined ? [] : _ref$excludes;
-
-  /*  Here private methods and private properties */
-
-  /* Specified exlude as an array */
-  if (!(0, _lodash.isArray)(excludes)) {
-    excludes = [];
-  }
-
-  /* Get all apis name and remove excludes ones */
-  var apis = _apis2.default;
+var DragandSubtitles = function DragandSubtitles() {
 
   /**
    *  Get all availabe apis
@@ -44,10 +35,8 @@ module.exports = function () {
   var getApis = function getApis() {
     var type = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
-    return apis.filter(function (api) {
+    return _apis2.default.filter(function (api) {
       return !type ? api : api.type.indexOf(type) != -1;
-    }).filter(function (api) {
-      return excludes.indexOf(api.name) == -1;
     });
   };
 
@@ -71,22 +60,9 @@ module.exports = function () {
    * @return {boolean}
    */
   var validApiOptions = function validApiOptions(parameters, apisOptions) {
-    var missing = apisOptions.filter(function (param) {
+    return apisOptions.filter(function (param) {
       return !parameters[param];
-    });
-    return missing.length > 0 ? false : true;
-  };
-
-  /**
-   * Transform languages array to an object
-   * @param {array} languages
-   * @return {object}
-   */
-  var getLanguageToObject = function getLanguageToObject(languages) {
-    return languages.reduce(function (obj, lang) {
-      obj[lang] = false;
-      return obj;
-    }, {});
+    }).length > 0 ? false : true;
   };
 
   /**
@@ -113,10 +89,9 @@ module.exports = function () {
    * @param {array} array of apis
    * @param {promise}
    */
-  var getSubtitles = function getSubtitles(apis, parameters) {
-    var languages = getLanguageToObject(parameters.languages);
+  var getSubtitles = function getSubtitles(type, apis, parameters) {
     return _q2.default.allSettled(apis.map(function (api) {
-      return api.callSeries();
+      return type == "serie" ? api.callSeries() : api.callMovies();
     })).then(function (results) {
       return formatResult(results);
     });
@@ -125,45 +100,51 @@ module.exports = function () {
   /* Object API return */
   return {
 
-    /* Excludes apis */
-    excludes: excludes,
-
     /**
      *  Get subtitles for a specific serie
      *  @param {object} options
      *  @return {promise} promise with subs
      */
+
     getSerieSubtitles: function getSerieSubtitles() {
-      var _ref2, _ref2$stopOnFind;
+      var _ref;
 
-      var parameters = arguments.length <= 0 || arguments[0] === undefined ? (_ref2 = {}, imdbid = _ref2.imdbid, filePath = _ref2.filePath, fileName = _ref2.fileName, title = _ref2.title, apis = _ref2.apis, languages = _ref2.languages, episode = _ref2.episode, season = _ref2.season, releaseGroup = _ref2.releaseGroup, _ref2$stopOnFind = _ref2.stopOnFind, stopOnFind = _ref2$stopOnFind === undefined ? false : _ref2$stopOnFind, _ref2) : arguments[0];
+      var parameters = arguments.length <= 0 || arguments[0] === undefined ? (_ref = {}, imdbId = _ref.imdbId, filePath = _ref.filePath, fileName = _ref.fileName, title = _ref.title, apis = _ref.apis, languages = _ref.languages, episode = _ref.episode, season = _ref.season, releaseGroup = _ref.releaseGroup, _ref) : arguments[0];
 
-      /* Get all series apis that match with parameters and set options */
+      /* Get all series apis that match with parameters, filter api requested, and set options */
       var seriesApis = getApis('serie').filter(function (api) {
+        return !parameters.apis ? true : parameters.apis.indexOf(api.name) != -1;
+      }).filter(function (api) {
         return validApiOptions(parameters, api.parameters.serie);
       }).map(function (api) {
         api.setOptions(parameters);
         return api;
       });
 
-      return getSubtitles(seriesApis, parameters);
+      return getSubtitles("serie", seriesApis, parameters);
     },
 
     /**
      *  Get subtitles for a specific movie
+     *  @param {object} options
      *  @return {promise} promise with subs
      */
     getMovieSubtitles: function getMovieSubtitles() {
-      var _ref3, _ref3$stopOnFind;
+      var _ref2;
 
-      var parameters = arguments.length <= 0 || arguments[0] === undefined ? (_ref3 = {}, imdbid = _ref3.imdbid, filePath = _ref3.filePath, title = _ref3.title, apis = _ref3.apis, languages = _ref3.languages, _ref3$stopOnFind = _ref3.stopOnFind, stopOnFind = _ref3$stopOnFind === undefined ? false : _ref3$stopOnFind, _ref3) : arguments[0];
+      var parameters = arguments.length <= 0 || arguments[0] === undefined ? (_ref2 = {}, imdbid = _ref2.imdbid, filePath = _ref2.filePath, title = _ref2.title, apis = _ref2.apis, languages = _ref2.languages, _ref2) : arguments[0];
 
       /* Get all movies apis that match with parameters and set options */
       var moviesApis = getApis('movie').filter(function (api) {
+        return parameters.apis.indexOf(api.name) != -1;
+      }).filter(function (api) {
         return validApiOptions(parameters, api.parameters.movie);
-      }).forEach(function (api) {
-        return api.setOptions(parameters);
+      }).map(function (api) {
+        api.setOptions(parameters);
+        return api;
       });
+
+      return getSubtitles("movie", moviesApis, parameters);
     },
 
     /**
@@ -202,3 +183,5 @@ module.exports = function () {
     }
   };
 };
+
+exports.DragandSubtitles = DragandSubtitles;
