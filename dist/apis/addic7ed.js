@@ -28,6 +28,7 @@ module.exports = function () {
       resultFormated.push({
         type: 'srt',
         language: sub.language,
+        releaseGroup: sub.releaseGroup,
         url: 'http://' + (apiUrl + sub.url),
         api: apiName
       });
