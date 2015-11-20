@@ -80,9 +80,9 @@ exports.default = function () {
      * Calling the API for series
      * @return {promise} format data and errors
      */
-    callSeries: function callSeries(test) {
+    callSeries: function callSeries() {
       var deferred = _q2.default.defer();
-      if (test) options.filePath = "eifjefoeifjefoe";
+
       openSubtitlesApi.search({
         sublanguageid: 'all',
         imdbid: options.imdbId,

@@ -64,9 +64,9 @@ export default () => {
      * Calling the API for series
      * @return {promise} format data and errors
      */
-    callSeries(test) {
+    callSeries() {
       let deferred = Q.defer();
-      if (test) options.filePath = "eifjefoeifjefoe";
+
       openSubtitlesApi.search({
         sublanguageid: 'all',
         imdbid       : options.imdbId,
