@@ -7,6 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.podnapisiHelper = undefined;
 
+var _lodash = require('lodash');
+
 var _request = require('request');
 
 var _request2 = _interopRequireDefault(_request);
@@ -56,7 +58,7 @@ var podnapisiHelper = exports.podnapisiHelper = (function () {
       (0, _request2.default)(requestUrl, function (error, response, body) {
         if (!error && response.statusCode === 200) {
           body = JSON.parse(_xml2json2.default.toJson(body));
-          if (body.results.pagination.results > 0) {
+          if ((0, _lodash.isArray)(body.results.subtitle)) {
             body.results.subtitle.forEach(function (sub) {
               subs.push(sub);
             });

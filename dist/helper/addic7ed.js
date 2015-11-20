@@ -166,11 +166,9 @@ var addic7edHelper = exports.addic7edHelper = (function () {
 
           /* Making the request */
           (0, _request2.default)('http://www.addic7ed.com/shows.php', function (error, response, body) {
-
             if (!error && response.statusCode === 200) {
               (function () {
                 var $ = _cheerio2.default.load(body);
-
                 $('h3 > a').each(function (index, element) {
                   shows.push({
                     name: $(element).text(),
@@ -185,9 +183,9 @@ var addic7edHelper = exports.addic7edHelper = (function () {
 
             return deferred.resolve(shows);
           });
+        } else {
+          deferred.resolve(JSON.parse(_fs2.default.readFileSync(fileName, 'utf8')));
         }
-
-        deferred.resolve(JSON.parse(_fs2.default.readFileSync(fileName, 'utf8')));
       });
 
       return deferred.promise;

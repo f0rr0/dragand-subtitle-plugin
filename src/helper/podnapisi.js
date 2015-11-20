@@ -1,3 +1,4 @@
+import {isArray} from 'lodash';
 import request from 'request';
 import parser from 'xml2json';
 import Q from 'q';
@@ -26,7 +27,7 @@ export class podnapisiHelper {
     request(requestUrl, (error, response, body) => {
       if(!error && response.statusCode === 200) {
         body = JSON.parse(parser.toJson(body));
-        if(body.results.pagination.results > 0){
+        if(isArray(body.results.subtitle)) {
           body.results.subtitle.forEach((sub) => {
             subs.push(sub);
           });

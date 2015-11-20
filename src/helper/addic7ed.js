@@ -121,10 +121,8 @@ export class addic7edHelper {
 
         /* Making the request */
         request('http://www.addic7ed.com/shows.php', (error, response, body) => {
-
           if(!error && response.statusCode === 200) {
             let $ = cheerio.load(body);
-
             $('h3 > a').each(function(index, element){
               shows.push({
                 name: $(element).text(),
@@ -141,9 +139,10 @@ export class addic7edHelper {
 
         });
 
+      }else {
+        deferred.resolve(JSON.parse(fs.readFileSync(fileName, 'utf8')));
       }
 
-      deferred.resolve(JSON.parse(fs.readFileSync(fileName, 'utf8')));
 
     });
 
