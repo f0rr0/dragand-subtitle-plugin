@@ -65,6 +65,22 @@ var DragandSubtitles = function DragandSubtitles() {
     }).length > 0 ? false : true;
   };
 
+  var sortByApi = function sortByApi(result, apis) {
+    var subs = [];
+    Object.keys(result).forEach(function (language) {
+      apis.forEach(function (api) {
+        subs = [].concat(subs, result[language].filter(function (sub) {
+          return sub.api == api;
+        }));
+      });
+      result[language] = [];
+      result[language] = [].concat(result[language], subs);
+      subs = [];
+    });
+
+    return result;
+  };
+
   /**
    * Format all apis results to a human readable object
    * @param {array} Q promise result (fulfilled & rejected)
@@ -93,7 +109,7 @@ var DragandSubtitles = function DragandSubtitles() {
     return _q2.default.allSettled(apis.map(function (api) {
       return type == "serie" ? api.callSeries() : api.callMovies();
     })).then(function (results) {
-      return formatResult(results);
+      return sortByApi(formatResult(results), parameters.apis);
     });
   };
 
