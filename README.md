@@ -1,6 +1,8 @@
 # dragand-subtitle-plugin
 Open Source library to get subtitles from famous externals apis like OpenSubtitles, Addic7ed, Yify subtitles or Podnapisi.
 
+We use it on the Dragand Application download at http://www.dragand.watch
+
 ## Getting Started
 
 ### Import
