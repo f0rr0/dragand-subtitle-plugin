@@ -41,6 +41,20 @@ const DragandSubtitles = () => {
     return apisOptions.filter( param => !parameters[param] ).length > 0 ? false : true;
   };
 
+  const sortByApi = (result, apis) => {
+    let subs = [];
+    Object.keys(result).forEach( language => {
+      apis.forEach(api => {
+        subs = [].concat(subs, result[language].filter( sub => sub.api == api));
+      });
+      result[language] = [];
+      result[language] = [].concat(result[language], subs);
+      subs = [];
+    });
+
+    return result;
+  };
+
 
   /**
    * Format all apis results to a human readable object
@@ -71,7 +85,7 @@ const DragandSubtitles = () => {
         return (type == "serie") ? api.callSeries() : api.callMovies();
       })
     )
-    .then( results => formatResult(results) );
+    .then( results => sortByApi(formatResult(results), parameters.apis) );
   };
 
 
