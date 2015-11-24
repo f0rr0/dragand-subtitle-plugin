@@ -48,7 +48,7 @@ export class fileInformationHelper {
       if (stats) {
         let cacheData = JSON.parse(fs.readFileSync(cacheFilePath, 'utf8'));
 
-        deferred.resolve(cacheData.media);
+        deferred.resolve(cacheData);
       } else {
 
         let media = {};
@@ -102,7 +102,7 @@ export class fileInformationHelper {
       if (stats) {
         let cacheData = JSON.parse(fs.readFileSync(cacheFilePath, 'utf8'));
 
-        deferred.resolve(cacheData.media);
+        deferred.resolve(cacheData);
       } else {
 
         let media = {};

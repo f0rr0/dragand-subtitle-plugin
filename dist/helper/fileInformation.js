@@ -82,7 +82,7 @@ var fileInformationHelper = exports.fileInformationHelper = (function () {
         if (stats) {
           var cacheData = JSON.parse(_fs2.default.readFileSync(cacheFilePath, 'utf8'));
 
-          deferred.resolve(cacheData.media);
+          deferred.resolve(cacheData);
         } else {
           (function () {
 
@@ -138,7 +138,7 @@ var fileInformationHelper = exports.fileInformationHelper = (function () {
         if (stats) {
           var cacheData = JSON.parse(_fs2.default.readFileSync(cacheFilePath, 'utf8'));
 
-          deferred.resolve(cacheData.media);
+          deferred.resolve(cacheData);
         } else {
           (function () {
 
