@@ -187,7 +187,7 @@ const DragandSubtitles = () => {
       //   console.log(subs);
       // });
       return promise
-    }
+    },
 
 
     /**
@@ -200,7 +200,7 @@ const DragandSubtitles = () => {
     download(url, directory, filename) {
 
       return filepath;
-    }
+    },
 
 
     /**
