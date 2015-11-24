@@ -1,4 +1,5 @@
 import {contributors} from '../package.json';
+import {fileInformationHelper} from './helper/fileInformation';
 import ExternalApis from './apis';
 import download from 'download';
 import {isArray} from 'lodash';
@@ -225,14 +226,37 @@ const DragandSubtitles = () => {
      *
      *  @return {Object}
      */
-    getInformations(path) {
-      // DS.getInformations(path)
-      // .then( options => {
-      //   return DS.getSerieSubtitles(options);
-      // }).then(subs => {
-      //   console.log(subs);
-      // });
-      return promise
+    getInformations(fileName, theMovieDbKey = null) {
+
+      let deferred = Q.defer();
+      let subsData = {};
+
+      fileInformationHelper.guessitInformation(fileName).then( data => {
+
+        /* Add all decompose file information */
+        subsData.file = data;
+
+        /* If we haven't theMovieDbKey we resolve the guessit parsing */
+        if(theMovieDbKey === null) {
+          return deferred.resolve(subsData);
+        }
+
+        /* It's a show */
+        if(subsData.file.type === 'episode') {
+          fileInformationHelper.getSeriesInformation(subsData.file.series, theMovieDbKey).then( media => {
+            subsData.media = media;
+            deferred.resolve(subsData);
+          });
+        } else { /* Else it's a movie */
+          fileInformationHelper.getMoviesInformation(subsData.file.title, theMovieDbKey).then( media => {
+            subsData.media = media;
+            deferred.resolve(subsData);
+          });
+        }
+
+      });
+
+      return deferred.promise;
     },
 
 

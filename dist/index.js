@@ -7,6 +7,8 @@ exports.DragandSubtitles = undefined;
 
 var _package = require('../package.json');
 
+var _fileInformation = require('./helper/fileInformation');
+
 var _apis = require('./apis');
 
 var _apis2 = _interopRequireDefault(_apis);
@@ -249,14 +251,38 @@ var DragandSubtitles = function DragandSubtitles() {
      *
      *  @return {Object}
      */
-    getInformations: function getInformations(path) {
-      // DS.getInformations(path)
-      // .then( options => {
-      //   return DS.getSerieSubtitles(options);
-      // }).then(subs => {
-      //   console.log(subs);
-      // });
-      return promise;
+    getInformations: function getInformations(fileName) {
+      var theMovieDbKey = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+      var deferred = _q2.default.defer();
+      var subsData = {};
+
+      _fileInformation.fileInformationHelper.guessitInformation(fileName).then(function (data) {
+
+        /* Add all decompose file information */
+        subsData.file = data;
+
+        /* If we haven't theMovieDbKey we resolve the guessit parsing */
+        if (theMovieDbKey === null) {
+          return deferred.resolve(subsData);
+        }
+
+        /* It's a show */
+        if (subsData.file.type === 'episode') {
+          _fileInformation.fileInformationHelper.getSeriesInformation(subsData.file.series, theMovieDbKey).then(function (media) {
+            subsData.media = media;
+            deferred.resolve(subsData);
+          });
+        } else {
+          /* Else it's a movie */
+          _fileInformation.fileInformationHelper.getMoviesInformation(subsData.file.title, theMovieDbKey).then(function (media) {
+            subsData.media = media;
+            deferred.resolve(subsData);
+          });
+        }
+      });
+
+      return deferred.promise;
     },
 
     /**
