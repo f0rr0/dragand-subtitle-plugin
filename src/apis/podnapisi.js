@@ -47,6 +47,9 @@ module.exports = () => {
       'movie': [ 'languages', 'title' ]
     },
 
+    /* Headers need for download the subtitle */
+    headers: {},
+
     /**
      * Set options before call
      * @param {object} configuration

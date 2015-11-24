@@ -64,6 +64,9 @@ export default () => {
       movie: ['languages', 'imdbId']
     },
 
+    /* Headers need for download the subtitle */
+    headers: {},
+
     /**
      * Set options before call
      * @param {object} configuration

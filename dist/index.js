@@ -5,13 +5,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DragandSubtitles = undefined;
 
-var _lodash = require('lodash');
-
 var _package = require('../package.json');
 
 var _apis = require('./apis');
 
 var _apis2 = _interopRequireDefault(_apis);
+
+var _download2 = require('download');
+
+var _download3 = _interopRequireDefault(_download2);
+
+var _lodash = require('lodash');
 
 var _q = require('q');
 
@@ -22,14 +26,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Dragand Subtitles Plugin
  * Factory pattern
+ *
  * @param {object} options
+ *
  * @return object with properties and methods
  */
 var DragandSubtitles = function DragandSubtitles() {
 
   /**
    *  Get all availabe apis
+   *
    *  @param {string} type of subtitles movie/serie
+   *
    *  @return {array} All apis name
    */
   var getApis = function getApis() {
@@ -42,7 +50,9 @@ var DragandSubtitles = function DragandSubtitles() {
 
   /**
    * Get apis by names
+   *
    * @param {array} names
+   *
    * @return {array} apis objects
    */
   var getApisByName = function getApisByName() {
@@ -55,8 +65,10 @@ var DragandSubtitles = function DragandSubtitles() {
 
   /**
    * Check if all options are valid
+   *
    * @param {array} api options required
    * @param {object} options
+   *
    * @return {boolean}
    */
   var validApiOptions = function validApiOptions(parameters, apisOptions) {
@@ -65,6 +77,14 @@ var DragandSubtitles = function DragandSubtitles() {
     }).length > 0 ? false : true;
   };
 
+  /**
+   * Sort subtitles by the apis parameters array
+   *
+   * @param {object} result from getSubtitles
+   * @param {array} apis names
+   *
+   * @return {object} subtitles
+   */
   var sortByApi = function sortByApi(result, apis) {
     var subs = [];
     Object.keys(result).forEach(function (language) {
@@ -83,7 +103,9 @@ var DragandSubtitles = function DragandSubtitles() {
 
   /**
    * Format all apis results to a human readable object
+   *
    * @param {array} Q promise result (fulfilled & rejected)
+   *
    * @return {object} final result object
    */
   var formatResult = function formatResult(results) {
@@ -102,7 +124,9 @@ var DragandSubtitles = function DragandSubtitles() {
 
   /**
    * Get Subtitles from apis
+   *
    * @param {array} array of apis
+   *
    * @param {promise}
    */
   var getSubtitles = function getSubtitles(type, apis, parameters) {
@@ -113,12 +137,34 @@ var DragandSubtitles = function DragandSubtitles() {
     });
   };
 
+  /**
+   * Get Subtitles file name
+   *
+   * @param  {Object} sub
+   * @param  {string} fileName
+   * @param  {boolean} addLanguage
+   *
+   * @return {string}
+   */
+  var getSubtitleFileName = function getSubtitleFileName(sub, fileName, addLanguage) {
+
+    var regex = /(.*)\.[^.]+$/;
+
+    if (addLanguage) {
+      return regex.exec(fileName)[1] + '.' + sub.language + '.srt';
+    }
+
+    return regex.exec(fileName)[1] + '.srt';
+  };
+
   /* Object API return */
   return {
 
     /**
      *  Get subtitles for a specific serie
+     *
      *  @param {object} options
+     *
      *  @return {promise} promise with subs
      */
 
@@ -142,7 +188,9 @@ var DragandSubtitles = function DragandSubtitles() {
 
     /**
      *  Get subtitles for a specific movie
+     *
      *  @param {object} options
+     *
      *  @return {promise} promise with subs
      */
     getMovieSubtitles: function getMovieSubtitles() {
@@ -165,7 +213,9 @@ var DragandSubtitles = function DragandSubtitles() {
 
     /**
      *  Get all available apis or a specific one
+     *
      *  @param {string} type of subtitles movie/serie
+     *
      *  @return {array} All apis name
      */
     apis: function apis() {
@@ -178,7 +228,9 @@ var DragandSubtitles = function DragandSubtitles() {
 
     /**
      *  Get informations about a specific api
+     *
      *  @param {string} api name
+     *
      *  @return {object} api information
      */
     api: function api() {
@@ -188,6 +240,49 @@ var DragandSubtitles = function DragandSubtitles() {
         return undefined;
       }
       return getApisByName([_api]).length == 1 ? getApisByName([_api])[0] : undefined;
+    },
+
+    /**
+     *  Get information about a filePath
+     *
+     *  @param  {string} path
+     *
+     *  @return {Object}
+     */
+    getInformations: function getInformations(path) {
+      // DS.getInformations(path)
+      // .then( options => {
+      //   return DS.getSerieSubtitles(options);
+      // }).then(subs => {
+      //   console.log(subs);
+      // });
+      return promise;
+    },
+
+    /**
+     * Download a specific sub from url to a directory
+     *
+     * @param {string} sub
+     * @param {string} directory
+     * @param {string} filename
+     * @param {boolean} addLanguage
+     *
+     * @return {string} filepath
+     */
+    download: function download(sub, directory, fileName) {
+      var addLanguage = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+      var deferred = _q2.default.defer();
+
+      new _download3.default({ mode: '755', extract: true, headers: this.api(sub.api).headers }).get(sub.url).dest(directory).rename(getSubtitleFileName(sub, fileName, addLanguage)).run(function (err, files) {
+        if (err !== 'null') {
+          return deferred.resolve(files[0].path);
+        }
+
+        return deferred.reject();
+      });
+
+      return deferred.promise;
     },
 
     /**

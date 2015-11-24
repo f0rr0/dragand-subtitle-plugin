@@ -65,6 +65,9 @@ exports.default = function () {
       movie: ['languages', 'imdbId', 'fileName', 'filePath']
     },
 
+    /* Headers need for download the subtitle */
+    headers: {},
+
     /**
      * Set options before call
      * @param {object} options
