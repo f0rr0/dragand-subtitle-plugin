@@ -7,6 +7,7 @@ We use it on the Dragand Application download at http://www.dragand.watch
 
 ### Import
   - ES6
+
     ```javascript
 
       import {DragandSubtitles} from 'dragand-subtitle-plugin';
@@ -17,11 +18,29 @@ We use it on the Dragand Application download at http://www.dragand.watch
     ```
 
   - ES5
+
     ```javascript
 
       var DS = require('dragand-subtitle-plugin').DragandSubtitles();
 
     ```
+
+### Get Series/Movies informations
+```javascript
+
+  /** Example
+  *
+  * Get file informations
+  *
+  * @param {string} fileName
+  * @param {string} TheMovieDbKey (https://www.themoviedb.org/)
+  */
+  DS.getInformations('scorpion.210.hdtv-lol[ettv].mp4', TheMovieDbKey)
+  .then( data => {
+    res.send(data);
+  });
+
+```
 
 ### Get Series subtitles
 ```javascript
@@ -70,7 +89,34 @@ We use it on the Dragand Application download at http://www.dragand.watch
 
 ### Return json
 
+All file informations looks like that
+
+```javascript
+{
+  file : {
+    type         : 'episode',
+    container    : 'mp4',
+    season       : 2,
+    releaseGroup : 'lol[ettv]',
+    episodeNumber: 10,
+    mimetype     : 'video/mp4',
+    series       : 'scorpion',
+    format       : 'HDTV'
+  },
+  media : {
+    title        : 'Scorpion',
+    years        : 2014,
+    poster       : 'http://image.tmdb.org/t/p/original/tIViOJS2eoDmktDEx29gXr3Ebhe.jpg',
+    largePoster  : 'http://image.tmdb.org/t/p/original/k8rwHWaLm32pVZjdUHZgTK5hE5w.jpg',
+    overview     : 'Based on a true story, Scorpion is a high-octane drama about eccentric genius Walter O’Brien and his team of brilliant misfits who comprise the last line of defense against complex, high-tech threats of the modern age. As Homeland Security’s new think tank, O’Brien’s “Scorpion” team includes Toby Curtis, an expert behaviorist who can read anyone; Happy Quinn, a mechanical prodigy; and Sylvester Dodd, a statistics guru.',
+    imdbId       : 'tt3514324'
+  }
+}
+
+```
+
 All returned subtitles looks like that
+
 ```javascript
 {
   en:
