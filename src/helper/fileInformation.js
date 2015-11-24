@@ -18,8 +18,11 @@ export class fileInformationHelper {
   static guessitInformation(filePath) {
     let deferred = Q.defer();
 
-    guessit.parseName(filePath).then( data => {
+    guessit.parseName(filePath, true).then( data => {
       deferred.resolve(data);
+    }).catch( () => {
+      guessit.submitBug(filePath);
+      deferred.reject();
     });
 
     return deferred.promise;
@@ -27,7 +30,7 @@ export class fileInformationHelper {
 
   /**
    * Get informations from TheMovieDb
-   * 
+   *
    * @param  {string} serieName
    * @param  {string} theMovieDbKey
    *

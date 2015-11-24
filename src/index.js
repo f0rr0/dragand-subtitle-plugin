@@ -254,7 +254,7 @@ const DragandSubtitles = () => {
           });
         }
 
-      });
+      }).catch( error => { deferred.reject(); });
 
       return deferred.promise;
     },

@@ -49,8 +49,11 @@ var fileInformationHelper = exports.fileInformationHelper = (function () {
     value: function guessitInformation(filePath) {
       var deferred = _q2.default.defer();
 
-      _guessitWrapper2.default.parseName(filePath).then(function (data) {
+      _guessitWrapper2.default.parseName(filePath, true).then(function (data) {
         deferred.resolve(data);
+      }).catch(function () {
+        _guessitWrapper2.default.submitBug(filePath);
+        deferred.reject();
       });
 
       return deferred.promise;
@@ -58,7 +61,7 @@ var fileInformationHelper = exports.fileInformationHelper = (function () {
 
     /**
      * Get informations from TheMovieDb
-     * 
+     *
      * @param  {string} serieName
      * @param  {string} theMovieDbKey
      *

@@ -280,6 +280,8 @@ var DragandSubtitles = function DragandSubtitles() {
             deferred.resolve(subsData);
           });
         }
+      }).catch(function (error) {
+        deferred.reject();
       });
 
       return deferred.promise;
