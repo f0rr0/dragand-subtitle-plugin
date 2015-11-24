@@ -48,6 +48,7 @@ exports.default = function () {
               resultFormated.push({
                 type: 'zip',
                 language: language,
+                rating: sub.rating,
                 url: 'http://' + (apiUrl + sub.url),
                 api: apiName
               });

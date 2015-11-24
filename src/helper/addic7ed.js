@@ -139,7 +139,7 @@ export class addic7edHelper {
 
         });
 
-      }else {
+      } else {
         deferred.resolve(JSON.parse(fs.readFileSync(fileName, 'utf8')));
       }
 
