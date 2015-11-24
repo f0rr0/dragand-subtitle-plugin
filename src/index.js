@@ -41,6 +41,13 @@ const DragandSubtitles = () => {
     return apisOptions.filter( param => !parameters[param] ).length > 0 ? false : true;
   };
 
+
+  /**
+   * Sort subtitles by the apis parameters array
+   * @param {object} result from getSubtitles
+   * @param {array} apis names
+   * @return {object} subtitles
+   */
   const sortByApi = (result, apis) => {
     let subs = [];
     Object.keys(result).forEach( language => {
@@ -166,6 +173,35 @@ const DragandSubtitles = () => {
       if (!api) { return undefined; }
       return (getApisByName([api]).length == 1) ? getApisByName([api])[0] : undefined;
     },
+
+    /**
+     *  Get information about a filePath
+     *  @param  {[type]} path [description]
+     *  @return {[type]}      [description]
+     */
+    getInformations(path) {
+      // DS.getInformations(path)
+      // .then( options => {
+      //   return DS.getSerieSubtitles(options);
+      // }).then(subs => {
+      //   console.log(subs);
+      // });
+      return promise
+    }
+
+
+    /**
+     * Download a specific sub from url to a directory
+     * @param {string} url
+     * @param {string} directory
+     * @param {string} filename
+     * @return {string} filepath
+     */
+    download(url, directory, filename) {
+
+      return filepath;
+    }
+
 
     /**
      *  Get all library contributors
