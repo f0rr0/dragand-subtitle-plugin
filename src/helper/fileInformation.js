@@ -20,9 +20,9 @@ export class fileInformationHelper {
 
     guessit.parseName(filePath, true).then( data => {
       deferred.resolve(data);
-    }).catch( () => {
+    }).catch( (err) => {
       guessit.submitBug(filePath);
-      deferred.reject();
+      deferred.reject(err);
     });
 
     return deferred.promise;
@@ -55,6 +55,10 @@ export class fileInformationHelper {
 
         theMovieDbInstance.searchTVShows({query: serieName}, (err, tvshows) => {
 
+          if(err) {
+            return deferred.reject(err);
+          }
+
           media = {
             title       : tvshows[0].name,
             years       : tvshows[0].year,
@@ -65,7 +69,7 @@ export class fileInformationHelper {
           theMovieDbInstance.getTVShow(tvshows[0].id, (err, tvshow) => {
 
             media.overview = tvshow.overview;
-            media.imdbId = tvshow.externalIds.imdbId;
+            media.imdbId   = tvshow.externalIds.imdbId;
 
             // Write data in JSON file :)
             fs.writeFile(cacheFilePath, JSON.stringify(media));
@@ -109,6 +113,10 @@ export class fileInformationHelper {
 
         theMovieDbInstance.searchMovies({query: movieName}, (err, movies) => {
 
+          if(err) {
+            return deferred.reject(err);
+          }
+
           media = {
             title       : movies[0].title,
             years       : movies[0].year,
@@ -119,7 +127,7 @@ export class fileInformationHelper {
           theMovieDbInstance.getMovie(movies[0].id, (err, movie) => {
 
             media.overview = movie.overview;
-            media.imdbId = movie.imdbId;
+            media.imdbId   = movie.imdbId;
 
             // Write data in JSON file :)
             fs.writeFile(cacheFilePath, JSON.stringify(media));

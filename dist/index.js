@@ -272,16 +272,20 @@ var DragandSubtitles = function DragandSubtitles() {
           _fileInformation.fileInformationHelper.getSeriesInformation(subsData.file.series, theMovieDbKey).then(function (media) {
             subsData.media = media;
             deferred.resolve(subsData);
+          }).catch(function (error) {
+            deferred.reject(error);
           });
         } else {
           /* Else it's a movie */
           _fileInformation.fileInformationHelper.getMoviesInformation(subsData.file.title, theMovieDbKey).then(function (media) {
             subsData.media = media;
             deferred.resolve(subsData);
+          }).catch(function (error) {
+            deferred.reject(error);
           });
         }
       }).catch(function (error) {
-        deferred.reject();
+        deferred.reject(error);
       });
 
       return deferred.promise;
@@ -307,7 +311,7 @@ var DragandSubtitles = function DragandSubtitles() {
           return deferred.resolve(files[0].path);
         }
 
-        return deferred.reject();
+        return deferred.reject(err);
       });
 
       return deferred.promise;

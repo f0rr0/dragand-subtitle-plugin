@@ -246,17 +246,18 @@ const DragandSubtitles = () => {
           fileInformationHelper.getSeriesInformation(subsData.file.series, theMovieDbKey).then( media => {
             subsData.media = media;
             deferred.resolve(subsData);
-          });
+          }).catch( error => { deferred.reject(error); });
         } else { /* Else it's a movie */
           fileInformationHelper.getMoviesInformation(subsData.file.title, theMovieDbKey).then( media => {
             subsData.media = media;
             deferred.resolve(subsData);
-          });
+          }).catch( error => { deferred.reject(error); });
         }
 
-      }).catch( error => { deferred.reject(); });
+      }).catch( error => { deferred.reject(error); });
 
       return deferred.promise;
+
     },
 
 
@@ -283,7 +284,7 @@ const DragandSubtitles = () => {
             return deferred.resolve(files[0].path);
           }
 
-          return deferred.reject();
+          return deferred.reject(err);
         });
 
       return deferred.promise;

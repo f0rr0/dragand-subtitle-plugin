@@ -51,9 +51,9 @@ var fileInformationHelper = exports.fileInformationHelper = (function () {
 
       _guessitWrapper2.default.parseName(filePath, true).then(function (data) {
         deferred.resolve(data);
-      }).catch(function () {
+      }).catch(function (err) {
         _guessitWrapper2.default.submitBug(filePath);
-        deferred.reject();
+        deferred.reject(err);
       });
 
       return deferred.promise;
@@ -89,6 +89,10 @@ var fileInformationHelper = exports.fileInformationHelper = (function () {
             var media = {};
 
             theMovieDbInstance.searchTVShows({ query: serieName }, function (err, tvshows) {
+
+              if (err) {
+                return deferred.reject(err);
+              }
 
               media = {
                 title: tvshows[0].name,
@@ -145,6 +149,10 @@ var fileInformationHelper = exports.fileInformationHelper = (function () {
             var media = {};
 
             theMovieDbInstance.searchMovies({ query: movieName }, function (err, movies) {
+
+              if (err) {
+                return deferred.reject(err);
+              }
 
               media = {
                 title: movies[0].title,
