@@ -24,10 +24,12 @@ export default () => {
     .map( key => result[key] )
     .map( sub => {
       return {
-        type    : sub.url.substr(sub.url.lastIndexOf('.') + 1),
-        language: sub.lang,
-        url     : sub.url,
-        api     : apiName
+        type     : sub.url.substr(sub.url.lastIndexOf('.') + 1),
+        language : sub.lang,
+        rating   : sub.score,
+        downloads: sub.downloads,
+        url      : sub.url,
+        api      : apiName
       };
     });
 

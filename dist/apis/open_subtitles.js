@@ -41,6 +41,8 @@ exports.default = function () {
       return {
         type: sub.url.substr(sub.url.lastIndexOf('.') + 1),
         language: sub.lang,
+        rating: sub.score,
+        downloads: sub.downloads,
         url: sub.url,
         api: apiName
       };
