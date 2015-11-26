@@ -1,6 +1,6 @@
 {
   "name": "dragand-subtitle-plugin",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Open Source library to get subtitles from famous externals apis",
   "contributors": [
     {
@@ -16,6 +16,20 @@
       "url": "http://www.arthurmialon.fr",
       "twitter": "http://www.twitter.com/arthurmialon",
       "role": "Developer"
+    },
+    {
+      "name": "Patrick Heng",
+      "email": "hengpatrick.pro@gmail.com",
+      "url": "http://www.hengpatrick.fr",
+      "twitter": "https://twitter.com/Pat_Hg",
+      "role": "Developer"
+    },
+    {
+      "name": "Robin Mastromarino",
+      "email": "robin.astromarino@gmail.com",
+      "url": "http://robinmastromarino.com/",
+      "twitter": "https://twitter.com/cherwoood",
+      "role": "Designer"
     }
   ],
   "main": "dist/index.js",
