@@ -5,11 +5,17 @@
   "contributors": [
     {
       "name": "Mathieu Le Tyrant",
-      "email": "mathieu.letyrant@gmail.com"
+      "email": "mathieu.letyrant@gmail.com",
+      "url": "http://mathieuletyrant.com",
+      "twitter": "http://www.twitter.com/mathlty",
+      "role": "Developer"
     },
     {
       "name": "Arthur Mialon",
-      "email": "arthurmialon@gmail.com"
+      "email": "arthurmialon@gmail.com",
+      "url": "http://www.arthurmialon.fr",
+      "twitter": "http://www.twitter.com/arthurmialon",
+      "role": "Developer"
     }
   ],
   "main": "dist/index.js",
