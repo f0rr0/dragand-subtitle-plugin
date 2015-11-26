@@ -41,6 +41,8 @@ exports.default = function () {
       return {
         type: sub.url.substr(sub.url.lastIndexOf('.') + 1),
         language: sub.lang,
+        rating: sub.score,
+        downloads: sub.downloads,
         url: sub.url,
         api: apiName
       };
@@ -64,6 +66,9 @@ exports.default = function () {
       serie: ['languages', 'imdbId', 'fileName', 'filePath', 'season', 'episode'],
       movie: ['languages', 'imdbId', 'fileName', 'filePath']
     },
+
+    /* Headers need for download the subtitle */
+    headers: {},
 
     /**
      * Set options before call

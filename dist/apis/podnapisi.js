@@ -29,6 +29,8 @@ module.exports = function () {
         type: 'zip',
         language: sub.language,
         releaseGroup: sub.release,
+        rating: sub.rating,
+        downloads: sub.downloads,
         url: sub.url + '/download',
         api: apiName
       };
@@ -52,6 +54,9 @@ module.exports = function () {
       'serie': ['languages', 'title', 'episode', 'season'],
       'movie': ['languages', 'title']
     },
+
+    /* Headers need for download the subtitle */
+    headers: {},
 
     /**
      * Set options before call

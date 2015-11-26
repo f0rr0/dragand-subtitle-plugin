@@ -48,6 +48,7 @@ exports.default = function () {
               resultFormated.push({
                 type: 'zip',
                 language: language,
+                rating: sub.rating,
                 url: 'http://' + (apiUrl + sub.url),
                 api: apiName
               });
@@ -74,6 +75,9 @@ exports.default = function () {
     parameters: {
       movie: ['languages', 'imdbId']
     },
+
+    /* Headers need for download the subtitle */
+    headers: {},
 
     /**
      * Set options before call

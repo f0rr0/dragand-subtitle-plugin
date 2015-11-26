@@ -1,6 +1,6 @@
 {
   "name": "dragand-subtitle-plugin",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "Open Source library to get subtitles from famous externals apis",
   "contributors": [
     {
@@ -50,12 +50,15 @@
   "homepage": "https://github.com/DragAndWatch/dragand-subtitle-plugin#readme",
   "dependencies": {
     "cheerio": "^0.19.0",
+    "download": "^4.4.3",
+    "guessit-wrapper": "^1.0.0",
     "lodash": "3.10.1",
     "moment": "^2.10.6",
     "natural": "^0.2.1",
     "opensubtitles-api": "^2.1.0",
     "q": "^1.4.1",
     "request": "^2.65.0",
+    "themoviedb": "^0.1.0",
     "xml2json": "^0.9.0"
   },
   "devDependencies": {

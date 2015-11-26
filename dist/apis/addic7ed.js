@@ -52,6 +52,11 @@ module.exports = function () {
       serie: ['languages', 'title', 'episode', 'season', 'releaseGroup']
     },
 
+    /* Headers need for download the subtitle */
+    headers: {
+      referer: 'http://www.addic7ed.com'
+    },
+
     /**
      * Set options before call
      * @param {object} configuration

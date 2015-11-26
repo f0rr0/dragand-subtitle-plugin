@@ -1,12 +1,16 @@
-import {isArray} from 'lodash';
 import {contributors} from '../package.json';
+import {fileInformationHelper} from './helper/fileInformation';
 import ExternalApis from './apis';
+import download from 'download';
+import {isArray} from 'lodash';
 import Q from 'q';
 
 /**
  * Dragand Subtitles Plugin
  * Factory pattern
+ *
  * @param {object} options
+ *
  * @return object with properties and methods
  */
 const DragandSubtitles = () => {
@@ -14,7 +18,9 @@ const DragandSubtitles = () => {
 
   /**
    *  Get all availabe apis
+   *
    *  @param {string} type of subtitles movie/serie
+   *
    *  @return {array} All apis name
    */
   const getApis = (type = false) => {
@@ -24,7 +30,9 @@ const DragandSubtitles = () => {
 
   /**
    * Get apis by names
+   *
    * @param {array} names
+   *
    * @return {array} apis objects
    */
   const getApisByName = (names = []) => {
@@ -33,8 +41,10 @@ const DragandSubtitles = () => {
 
   /**
    * Check if all options are valid
+   *
    * @param {array} api options required
    * @param {object} options
+   *
    * @return {boolean}
    */
   const validApiOptions = (parameters, apisOptions) => {
@@ -44,8 +54,10 @@ const DragandSubtitles = () => {
 
   /**
    * Sort subtitles by the apis parameters array
+   *
    * @param {object} result from getSubtitles
    * @param {array} apis names
+   *
    * @return {object} subtitles
    */
   const sortByApi = (result, apis) => {
@@ -65,7 +77,9 @@ const DragandSubtitles = () => {
 
   /**
    * Format all apis results to a human readable object
+   *
    * @param {array} Q promise result (fulfilled & rejected)
+   *
    * @return {object} final result object
    */
   const formatResult = (results) => {
@@ -83,7 +97,9 @@ const DragandSubtitles = () => {
 
   /**
    * Get Subtitles from apis
+   *
    * @param {array} array of apis
+   *
    * @param {promise}
    */
   const getSubtitles = (type, apis, parameters) => {
@@ -95,13 +111,36 @@ const DragandSubtitles = () => {
     .then( results => sortByApi(formatResult(results), parameters.apis) );
   };
 
+  /**
+   * Get Subtitles file name
+   *
+   * @param  {Object} sub
+   * @param  {string} fileName
+   * @param  {boolean} addLanguage
+   *
+   * @return {string}
+   */
+  const getSubtitleFileName = (sub, fileName, addLanguage) => {
+
+    const regex = /(.*)\.[^.]+$/;
+
+    if(addLanguage) {
+      return `${regex.exec(fileName)[1]}.${sub.language}.srt`;
+    }
+
+    return `${regex.exec(fileName)[1]}.srt`;
+
+  };
+
 
   /* Object API return */
   return {
 
     /**
      *  Get subtitles for a specific serie
+     *
      *  @param {object} options
+     *
      *  @return {promise} promise with subs
      */
     getSerieSubtitles(parameters = {
@@ -132,7 +171,9 @@ const DragandSubtitles = () => {
 
     /**
      *  Get subtitles for a specific movie
+     *
      *  @param {object} options
+     *
      *  @return {promise} promise with subs
      */
     getMovieSubtitles(parameters = {
@@ -157,7 +198,9 @@ const DragandSubtitles = () => {
 
     /**
      *  Get all available apis or a specific one
+     *
      *  @param {string} type of subtitles movie/serie
+     *
      *  @return {array} All apis name
      */
     apis(type = false) {
@@ -166,7 +209,9 @@ const DragandSubtitles = () => {
 
     /**
      *  Get informations about a specific api
+     *
      *  @param {string} api name
+     *
      *  @return {object} api information
      */
     api(api = false) {
@@ -176,30 +221,74 @@ const DragandSubtitles = () => {
 
     /**
      *  Get information about a filePath
-     *  @param  {[type]} path [description]
-     *  @return {[type]}      [description]
+     *
+     *  @param  {string} path
+     *
+     *  @return {Object}
      */
-    getInformations(path) {
-      // DS.getInformations(path)
-      // .then( options => {
-      //   return DS.getSerieSubtitles(options);
-      // }).then(subs => {
-      //   console.log(subs);
-      // });
-      return promise
+    getInformations(fileName, theMovieDbKey = null) {
+
+      let deferred = Q.defer();
+      let subsData = {};
+
+      fileInformationHelper.guessitInformation(fileName).then( data => {
+
+        /* Add all decompose file information */
+        subsData.file = data;
+
+        /* If we haven't theMovieDbKey we resolve the guessit parsing */
+        if(theMovieDbKey === null) {
+          return deferred.resolve(subsData);
+        }
+
+        /* It's a show */
+        if(subsData.file.type === 'episode') {
+          fileInformationHelper.getSeriesInformation(subsData.file.series, theMovieDbKey).then( media => {
+            subsData.media = media;
+            deferred.resolve(subsData);
+          }).catch( error => { deferred.reject(error); });
+        } else { /* Else it's a movie */
+          fileInformationHelper.getMoviesInformation(subsData.file.title, theMovieDbKey).then( media => {
+            subsData.media = media;
+            deferred.resolve(subsData);
+          }).catch( error => { deferred.reject(error); });
+        }
+
+      }).catch( error => { deferred.reject(error); });
+
+      return deferred.promise;
+
     },
 
 
     /**
      * Download a specific sub from url to a directory
-     * @param {string} url
+     *
+     * @param {string} sub
      * @param {string} directory
      * @param {string} filename
+     * @param {boolean} addLanguage
+     *
      * @return {string} filepath
      */
-    download(url, directory, filename) {
+    download(sub, directory, fileName, addLanguage = false) {
 
-      return filepath;
+      let deferred = Q.defer();
+
+      new download({mode: '755', extract: true, headers: this.api(sub.api).headers})
+        .get(sub.url)
+        .dest(directory)
+        .rename(getSubtitleFileName(sub, fileName, addLanguage))
+        .run(function (err, files) {
+          if(err !== 'null') {
+            return deferred.resolve(files[0].path);
+          }
+
+          return deferred.reject(err);
+        });
+
+      return deferred.promise;
+
     },
 
 
