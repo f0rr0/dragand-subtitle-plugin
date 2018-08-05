@@ -1,4 +1,7 @@
 # dragand-subtitle-plugin
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/f0rr0/dragand-subtitle-plugin.svg)](https://greenkeeper.io/)
+
 Open Source library to get subtitles from famous externals apis like OpenSubtitles, Addic7ed, Yify subtitles or Podnapisi.
 
 We use it on the Dragand Application download at http://www.dragand.watch
