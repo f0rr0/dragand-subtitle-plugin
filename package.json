@@ -63,21 +63,21 @@
   },
   "homepage": "https://github.com/DragAndWatch/dragand-subtitle-plugin#readme",
   "dependencies": {
-    "cheerio": "^0.19.0",
-    "download": "^4.4.3",
+    "cheerio": "^0.22.0",
+    "download": "^7.1.0",
     "guessit-wrapper": "^1.0.0",
-    "lodash": "3.10.1",
+    "lodash": "4.17.10",
     "moment": "^2.10.6",
-    "natural": "^0.2.1",
-    "opensubtitles-api": "^2.1.0",
+    "natural": "^0.6.1",
+    "opensubtitles-api": "^4.1.0",
     "q": "^1.4.1",
     "request": "^2.65.0",
     "themoviedb": "^0.1.0",
-    "xml2json": "^0.9.0"
+    "xml2json": "^0.11.2"
   },
   "devDependencies": {
-    "babel-core": "6.1.21",
-    "babel-preset-es2015": "6.1.18",
-    "chai": "3.4.1"
+    "babel-core": "6.26.3",
+    "babel-preset-es2015": "6.24.1",
+    "chai": "4.1.2"
   }
 }
